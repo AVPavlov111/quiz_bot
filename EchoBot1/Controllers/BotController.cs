@@ -33,5 +33,11 @@ namespace EchoBot1.Controllers
             // The adapter will invoke the bot.
             await _adapter.ProcessAsync(Request, Response, _bot);
         }
+
+        [HttpGet, Route("test")]
+        public string Test()
+        {
+            return "Hello world";
+        }
     }
 }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\projects\EchoBot1" t="IncludeFlat">
+    <e p="C:\Users\a.sergeev\.Rider2019.3\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\a.sergeev\.Rider2019.3\config\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\a.sergeev\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\a.sergeev\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_EchoBot1.1424915292.00" t="ExcludeRecursive" />
+    <e p="C:\Work\quiz_bot" t="IncludeFlat">
       <e p="EchoBot1" t="IncludeRecursive">
         <e p="AdapterWithErrorHandler.cs" t="Include" />
         <e p="appsettings.Development.json" t="Include" />
@@ -55,8 +59,5 @@
       <e p="EchoBot1.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
     </e>
-    <e p="C:\Users\av.pavlov\.Rider2019.3\config\extensions" t="IncludeRecursive" />
-    <e p="C:\Users\av.pavlov\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\av.pavlov\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_EchoBot1.1872252467.00" t="ExcludeRecursive" />
   </component>
 </project>
