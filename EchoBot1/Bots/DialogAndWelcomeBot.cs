@@ -4,6 +4,7 @@
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.6.2
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +47,7 @@ namespace EchoBot1.Bots
             const string cardResourcePath = "EchoBot1.Cards.welcomeCard.json";
 
             using var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath);
+            Debug.Assert(stream != null, nameof(stream) + " != null");
             using var reader = new StreamReader(stream);
             var adaptiveCard = reader.ReadToEnd();
             return new Attachment()

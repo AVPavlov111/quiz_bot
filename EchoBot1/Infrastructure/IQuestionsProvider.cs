@@ -38,7 +38,7 @@ namespace EchoBot1.Infrastructure
                     },
                     CorrectAnswer = $"value {i%4 + 1}",
                     DescribeAnswer = "DescribeAnswer",
-                    QuestionType = QuestionType.Choise
+                    QuestionType = i %2 == 0 ?  QuestionType.Choice : QuestionType.TextAnswer
                 });
             }
         }
@@ -82,7 +82,7 @@ namespace EchoBot1.Infrastructure
 
     public enum QuestionType
     {
-        Choise,
+        Choice,
         TextAnswer
     }
 }
