@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoBot1", "EchoBot1\EchoBot1.csproj", "{640E4AE5-FD57-423C-A07C-E98998ADC10F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueQuizBot", "TrueQuizBot\TrueQuizBot.csproj", "{640E4AE5-FD57-423C-A07C-E98998ADC10F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace EchoBot1.Dialogs
+namespace TrueQuizBot.Dialogs
 {
     public class CancelAndHelpDialog : ComponentDialog
     {

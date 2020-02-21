@@ -2,13 +2,13 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
-using EchoBot1.Bots;
-using EchoBot1.Dialogs;
-using EchoBot1.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using TrueQuizBot.Bots;
+using TrueQuizBot.Dialogs;
+using TrueQuizBot.Infrastructure;
 
-namespace EchoBot1
+namespace TrueQuizBot
 {
     public class Startup
     {

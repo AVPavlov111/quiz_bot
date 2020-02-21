@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace EchoBot1
+namespace TrueQuizBot
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {

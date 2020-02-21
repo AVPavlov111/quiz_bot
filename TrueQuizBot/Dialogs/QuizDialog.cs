@@ -2,14 +2,14 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EchoBot1.Infrastructure;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
+using TrueQuizBot.Infrastructure;
 using Activity = Microsoft.Bot.Schema.Activity;
 
-namespace EchoBot1.Dialogs
+namespace TrueQuizBot.Dialogs
 {
     public class QuizDialog : CancelAndHelpDialog
     {

@@ -14,7 +14,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace EchoBot1.Bots
+namespace TrueQuizBot.Bots
 {
     public class DialogAndWelcomeBot<T> : DialogBot<T>
         where T : Dialog
@@ -44,7 +44,7 @@ namespace EchoBot1.Bots
         // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            const string cardResourcePath = "EchoBot1.Cards.welcomeCard.json";
+            const string cardResourcePath = "TrueQuizBot.Cards.welcomeCard.json";
 
             using var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath);
             Debug.Assert(stream != null, nameof(stream) + " != null");
