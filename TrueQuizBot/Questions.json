@@ -1,0 +1,24 @@
+{
+  "questions": [
+    {
+      "index": 0,
+      "text": "Text 1",
+      "imageUrl": null,
+      "answers": ["value 1", "value 2", "value 3", "value 4"],
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": "describeAnswer 1",
+      "questionType": 1
+    },
+    {
+      "index": 1,
+      "text": "Text 2",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": "describeAnswer 2",
+      "questionType": 2
+    }
+  ]
+}

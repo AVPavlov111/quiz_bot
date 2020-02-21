@@ -1,0 +1,9 @@
+namespace TrueQuizBot.Infrastructure
+{
+    public class AnswerStatistic
+    {
+        public int QuestionIndex { get; set; }
+        public bool IsCorrect { get; set; }
+        public string? Answer { get; set; }
+    }
+}

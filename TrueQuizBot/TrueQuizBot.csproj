@@ -11,9 +11,12 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Cards\welcomeCard.json" />
+    <None Remove="Questions.txt" />
+    <EmbeddedResource Include="Questions.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
   </ItemGroup>

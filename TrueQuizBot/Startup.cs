@@ -17,7 +17,7 @@ namespace TrueQuizBot
         {
             services.AddMvc();
 
-            services.AddSingleton<IQuestionsProvider, InMemoryQuestionsProvider>();
+            services.AddSingleton<IQuestionsProvider, QuestionProvider>();
 
             services.AddSingleton<IDataProvider, InMemoryDataProvider>();
 
