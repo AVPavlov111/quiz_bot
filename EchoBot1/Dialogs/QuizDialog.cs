@@ -17,6 +17,7 @@ namespace EchoBot1.Dialogs
         private readonly IDataProvider _dataProvider;
         private Question? _question;
         private const string ChoiceText = "Выберите один из вариантов ответа";
+        private const string TextAnswer = "Введите ответ";
 
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
@@ -53,20 +54,38 @@ namespace EchoBot1.Dialogs
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
 
-            var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
-            var retryActivity = new Activity(ActivityTypes.Message) { Text = "retry text" };
-            var promptOptions = new PromptOptions
+
+            if (_question.QuestionType == QuestionType.Choice)
             {
-                Prompt = promptMessage,
-                Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList(),
-                RetryPrompt = retryActivity
-            };
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+                var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
+                var retryActivity = new Activity(ActivityTypes.Message) { Text = "retry text" };
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = promptMessage,
+                    Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList(),
+                    RetryPrompt = retryActivity
+                };
+                return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+            }
+            else
+            {
+                var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
+                var promptOptions = new PromptOptions { Prompt = promptMessage };
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            }
         }
 
         private async Task<DialogTurnResult> CheckAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var answer = ((FoundChoice) stepContext.Result).Value;
+            string answer;
+            if (stepContext.Result is FoundChoice choice)
+            {
+                answer = choice.Value;
+            }
+            else
+            {
+                answer = (string) stepContext.Result;
+            }
 
             if (_question == null)
             {
