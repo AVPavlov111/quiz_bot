@@ -244,3 +244,6 @@ ModelManifest.xml
 
 #idea
 .idea/
+TrueQuizBot/Properties/PublishProfiles/truebotwebapp - FTP.pubxml
+TrueQuizBot/Properties/PublishProfiles/truebotwebapp - ReadOnly - FTP.pubxml
+TrueQuizBot/Properties/PublishProfiles/truebotwebapp - Web Deploy.pubxml
