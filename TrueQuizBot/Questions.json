@@ -1,24 +1,191 @@
 {
-  "questions": [
+  "questions": [    
     {
       "index": 0,
-      "text": "Text 1",
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Нет, нет и нет!*",
       "imageUrl": null,
-      "answers": ["value 1", "value 2", "value 3", "value 4"],
+      "answers": null,
       "correctAnswer": "value 2",
       "describeAnswerImageUrl": null,
-      "describeAnswer": "describeAnswer 1",
-      "questionType": 1
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
     },
     {
       "index": 1,
-      "text": "Text 2",
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Не всё*",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "2",
+      "correctAnswer": "value 2",
       "describeAnswerImageUrl": null,
-      "describeAnswer": "describeAnswer 2",
-      "questionType": 2
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 2,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Всё равно*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 3,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Всё больше и больше*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 4,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Приблизительно*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 5,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Почти всё*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 6,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Больше нет!*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 7,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Не всё ли равно?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 8,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Точно нет?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 9,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*Не вопрос*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 10,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*И чо?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 11,
+      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n\\* - всё  \n\\# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n*И ничо!*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "value 2",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 12,
+      "text": "int i = ???;  \ni = i++ + ++i;  \ni = i++ + ++i;  \nSystem.out.println(i);  \nВ консоль будет выведено 100. Чему равно i?",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "116088046",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 13,
+      "text": "<?xml version=\"1.0\" encoding=\"utf-8\"?>  \n<xs:schema attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">  \n<xs:complexType name=\"Einstein\">  \n\\<xs:sequence\\>  \n<xs:element type=\"xs:string\" name=\"Newton\"/>  \n<xs:element name=\"multiply\" type =\"Galilei\">  \n</xs:element>  \n</xs:sequence>  \n</xs:complexType>  \n<xs:element name=\"divide\" type=\"Einstein\" >  \n</xs:element>  \n<xs:complexType name =\"Galilei\">  \n\\<xs:sequence\\>  \n<xs:element type=\"xs:string\" name=\"meter\" maxOccurs=\"2\" minOccurs=\"2\"/>  \n</xs:sequence>  \n</xs:complexType>  \n</xs:schema>  \n*Здесь зашифровано имя великого ученого: какого (напиши по-русски только фамилию)?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "Паскаль",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 14,
+      "text": "-4193596800  \n*Кто умер (напиши по-русски только фамилию)?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "Пушкин",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 15,
+      "text": "Рэймен и Даймен сказали, что *U2FsdGVkX1/lZ593RWtapa6k1V7BNrazjGjuoHXB6l7mfmy9LvpZW4VNMGkj39X9 g*  \nпридет к тебе сегодня.  \n*Кто придет? Ответ тебе поможет открыть True Engineering.*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "Катя Никитина",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
+    },
+    {
+      "index": 16,
+      "text": "И \"жесткий\" вопрос от главного архитектора. Главный архитектор человек серьезный, никогда не улыбается, говорит только о технологиях.  \nНастоящие инженеры (хохо:-)  \nпьют только (тактак:-)  \nром, [смайлик:-]  \nколу, [лол:-]  \nводку, [опятьсмайлик:-]  \nджин (сновалол:-)  \nи кофе. [неплохо:-]  \n*А какой напиток на самом деле любят настоящие инженеры?*",
+      "imageUrl": null,
+      "answers": null,
+      "correctAnswer": "Молоко",
+      "describeAnswerImageUrl": null,
+      "describeAnswer": null,
+      "questionType": 2,
+      "pointsNumber": 1
     }
   ]
 }

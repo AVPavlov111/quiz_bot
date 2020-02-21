@@ -28,7 +28,8 @@ namespace TrueQuizBot.Infrastructure
             {
                 Answer = answer,
                 IsCorrect = question.IsCorrectAnswer(answer),
-                QuestionIndex = question.Index
+                QuestionIndex = question.Index,
+                PointsNumber = question.PointsNumber
             });
         }
 
@@ -53,6 +54,7 @@ namespace TrueQuizBot.Infrastructure
         private User GetUser(string userId)
         {
             return _users.FirstOrDefault(u => string.Equals(u.UserId, userId, StringComparison.OrdinalIgnoreCase)) 
+                   // ReSharper disable once ConstantNullCoalescingCondition
                    ?? AddUser(userId);
         }
     }

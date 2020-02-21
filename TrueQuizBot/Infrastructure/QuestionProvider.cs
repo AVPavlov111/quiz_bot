@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,12 +11,10 @@ namespace TrueQuizBot.Infrastructure
     {
         private readonly IDataProvider _dataProvider;
         private readonly List<Question> _questions;
-        private readonly Random _random;
 
         public QuestionProvider(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
-            _random = new Random();
             _questions = LoadQuestions();
         }
         
@@ -31,9 +28,9 @@ namespace TrueQuizBot.Infrastructure
             {
                 return null;
             }
-            var rangeIndex = _random.Next(notCompletedQuestionsCount);
-            var questionIndex = range.ElementAt(rangeIndex);
-            return _questions[questionIndex];
+            
+            var questionIndex = range.ElementAt(0);
+            return _questions.FirstOrDefault(q => q.Index == questionIndex);
         }
 
         private List<Question> LoadQuestions()

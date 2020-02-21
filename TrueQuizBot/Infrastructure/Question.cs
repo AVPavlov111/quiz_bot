@@ -16,6 +16,7 @@ namespace TrueQuizBot.Infrastructure
         public string? DescribeAnswerImageUrl { get; set; }
         public string? DescribeAnswer { get; set; }
         public QuestionType QuestionType { get; set; }
+        public int PointsNumber { get; set; }
 
         public bool IsCorrectAnswer(string answer)
         {
