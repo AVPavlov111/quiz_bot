@@ -17,7 +17,7 @@ namespace TrueQuizBot.Dialogs
         private readonly IDataProvider _dataProvider;
         private Question? _question;
         private const string ChoiceText = "Выберите один из вариантов ответа";
-        private const string TextAnswer = "Введите ответ";
+        private const string TextAnswer = "";
 
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
