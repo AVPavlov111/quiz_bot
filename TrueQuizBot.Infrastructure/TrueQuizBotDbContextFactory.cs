@@ -15,7 +15,6 @@ namespace TrueQuizBot.Infrastructure
             return new DbContextOptionsBuilder<TrueQuizBotDbContext>()
                 .UseSqlServer(connectionString ?? DefaultConnectionString, x =>
                 {
-                    //x.MigrationsAssembly("TrueQuizBot.WebApi");
                     x.MigrationsHistoryTable("__EFMigrationsHistory", TrueQuizBotDbContext.DefaultSchemaName);
                 })
                 .Options;
