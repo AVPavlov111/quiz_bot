@@ -34,7 +34,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 QuestionIndex = question.Index,
                 PointsNumber = question.PointsNumber
             });
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void ClearAnswerStatistic(string userId)
