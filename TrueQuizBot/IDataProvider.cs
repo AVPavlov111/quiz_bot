@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TrueQuizBot.Infrastructure
+namespace TrueQuizBot
 {
     public interface IDataProvider
     {

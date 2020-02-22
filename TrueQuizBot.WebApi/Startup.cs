@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using TrueQuizBot.Bots;
 using TrueQuizBot.Dialogs;
 using TrueQuizBot.Infrastructure;
+using TrueQuizBot.Infrastructure.EntityFramework;
 
 namespace TrueQuizBot
 {

@@ -1,61 +1,59 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrueQuizBot.Infrastructure
+namespace TrueQuizBot.Infrastructure.EntityFramework
 {
-    public class InMemoryDataProvider : IDataProvider
+    public class SqlServerDataProvider : IDataProvider
     {
-        private readonly List<User> _users = new List<User>();
-        
+        private readonly TrueQuizBotDbContext _context;
+
+        public SqlServerDataProvider(TrueQuizBotDbContext context)
+        {
+            _context = context;
+        }
         public User AddUser(string userId)
         {
             var user = new User(userId);
-            _users.Add(user);
+            _context.AddUser(user);
             return user;
         }
 
         public List<int> GetCompletedQuestionsIndexes(string userId)
         {
-            var user = GetUser(userId);
+            var user = _context.GetUser(userId);
             return user.AnswerStatistics.Select(a => a.QuestionIndex).ToList();
         }
 
         public void SaveAnswer(string userId, Question question, string answer)
         {
-            var user = GetUser(userId);
-            user.AnswerStatistics.Add(new AnswerStatistic
+            var user = _context.GetUser(userId);
+            user.SaveAnswer(new AnswerStatistic
             {
                 Answer = answer,
                 IsCorrect = question.IsCorrectAnswer(answer),
                 QuestionIndex = question.Index,
                 PointsNumber = question.PointsNumber
             });
+            _context.SaveChangesAsync();
         }
 
         public void ClearAnswerStatistic(string userId)
         {
-            var user = GetUser(userId);
-            user.AnswerStatistics = new List<AnswerStatistic>();
+            var user = _context.GetUser(userId);
+            user.ClearAnswerStatistic();
+            _context.SaveChangesAsync();
         }
 
         public void SavePersonalData(string userId, PersonalData personalData)
         {
-            var user = GetUser(userId);
-            user.PersonalData = personalData;
+            var user = _context.GetUser(userId);
+            user.SavePersonalData(personalData);
         }
 
         public bool IsUserAlreadyEnterPersonalData(string userId)
         {
-            var user = GetUser(userId);
+            var user = _context.GetUser(userId);
             return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
-        }
-
-        private User GetUser(string userId)
-        {
-            return _users.FirstOrDefault(u => string.Equals(u.UserId, userId, StringComparison.OrdinalIgnoreCase)) 
-                   // ReSharper disable once ConstantNullCoalescingCondition
-                   ?? AddUser(userId);
         }
     }
 }

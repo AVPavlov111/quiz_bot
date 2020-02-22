@@ -1,4 +1,4 @@
-namespace TrueQuizBot.Infrastructure
+namespace TrueQuizBot
 {
     public interface IQuestionsProvider
     {

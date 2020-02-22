@@ -35,7 +35,7 @@ namespace TrueQuizBot.Infrastructure
 
         private List<Question> LoadQuestions()
         {
-            const string questionsPath = "TrueQuizBot.Questions.json";
+            const string questionsPath = "TrueQuizBot.WebApi.Questions.json";
 
             using var stream = GetType().Assembly.GetManifestResourceStream(questionsPath);
             Debug.Assert(stream != null, nameof(stream) + " != null");

@@ -44,7 +44,7 @@ namespace TrueQuizBot.Bots
         // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            const string cardResourcePath = "TrueQuizBot.Cards.welcomeCard.json";
+            const string cardResourcePath = "TrueQuizBot.WebApi.Cards.welcomeCard.json";
 
             using var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath);
             Debug.Assert(stream != null, nameof(stream) + " != null");
