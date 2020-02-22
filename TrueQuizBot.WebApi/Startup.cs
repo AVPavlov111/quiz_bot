@@ -8,6 +8,7 @@ using TrueQuizBot.Bots;
 using TrueQuizBot.Dialogs;
 using TrueQuizBot.Infrastructure;
 using TrueQuizBot.Infrastructure.EntityFramework;
+using TrueQuizBot.WebApi.Infrastructure;
 
 namespace TrueQuizBot
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace TrueQuizBot.Infrastructure
+namespace TrueQuizBot.WebApi.Infrastructure
 {
     public class QuestionProvider : IQuestionsProvider
     {
