@@ -25,6 +25,10 @@ namespace TrueQuizBot
 
         public void SavePersonalData(PersonalData personalData)
         {
+            if (PersonalData == null)
+            {
+                PersonalData = new PersonalData();
+            }
             PersonalData.Update(personalData);
         }
     }

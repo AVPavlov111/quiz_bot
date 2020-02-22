@@ -42,7 +42,7 @@ namespace TrueQuizBot.WebApi.Infrastructure
             using var reader = new StreamReader(stream);
             var questionsStr = reader.ReadToEnd();
             var result = JsonConvert.DeserializeObject<QuestionsContainer>(questionsStr);
-            return result.Questions;
+            return result.Questions.Take(1).ToList();
         }
 
         private class QuestionsContainer

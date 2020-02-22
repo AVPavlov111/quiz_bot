@@ -34,20 +34,21 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 QuestionIndex = question.Index,
                 PointsNumber = question.PointsNumber
             });
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void ClearAnswerStatistic(string userId)
         {
             var user = _context.GetUser(userId);
             user.ClearAnswerStatistic();
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void SavePersonalData(string userId, PersonalData personalData)
         {
             var user = _context.GetUser(userId);
             user.SavePersonalData(personalData);
+            _context.SaveChanges();
         }
 
         public bool IsUserAlreadyEnterPersonalData(string userId)

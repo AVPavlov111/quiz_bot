@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using TrueQuizBot.Bots;
 using TrueQuizBot.Dialogs;
@@ -10,10 +11,18 @@ using TrueQuizBot.Infrastructure;
 using TrueQuizBot.Infrastructure.EntityFramework;
 using TrueQuizBot.WebApi.Infrastructure;
 
-namespace TrueQuizBot
+namespace TrueQuizBot.WebApi
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; set; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -43,6 +52,8 @@ namespace TrueQuizBot
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
+
+            services.AddTransient(isp => new TrueQuizBotDbContext(TrueQuizBotDbContextFactory.GetSqlServerOptions(Configuration.GetConnectionString("DefaultConnection"))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

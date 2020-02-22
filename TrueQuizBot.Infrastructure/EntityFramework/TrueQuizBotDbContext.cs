@@ -6,7 +6,11 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
 {
     public class TrueQuizBotDbContext : DbContext
     {
-        private const string DefaultSchemaName = "TQB";
+        public TrueQuizBotDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public const string DefaultSchemaName = "TQB";
         
         public DbSet<User> Users { get; set; }
         
@@ -19,13 +23,13 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         public User AddUser(User user)
         {
             Users.Add(user);
-            base.SaveChangesAsync();
+            base.SaveChanges();
             return user;
         }
         
         public User GetUser(string userId)
         {
-            return Users.FirstOrDefault(u => string.Equals(u.UserId, userId, StringComparison.OrdinalIgnoreCase))
+            return Users.Single(u => u.UserId == userId)
                    // ReSharper disable once ConstantNullCoalescingCondition
                    ?? AddUser(new User(userId));
         }
