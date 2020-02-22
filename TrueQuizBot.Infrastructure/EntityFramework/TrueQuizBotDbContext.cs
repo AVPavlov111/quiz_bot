@@ -29,7 +29,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         
         public User GetUser(string userId)
         {
-            return Users.Single(u => u.UserId == userId)
+            return Users.FirstOrDefault(u => u.UserId == userId)
                    // ReSharper disable once ConstantNullCoalescingCondition
                    ?? AddUser(new User(userId));
         }
