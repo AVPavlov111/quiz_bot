@@ -35,6 +35,11 @@
       "text": "Сегодня в 16-10 мы подведём итоги и наградим трёх самых быстрых участников с максимальным количеством правильный ответов",
       "wrap": true,
       "maxLines": 0
+    },
+    {
+      "type": "Image",
+      "url": "https://trueengineering.ru/dam/jcr:f5c073f4-ba95-47bf-97dc-78032ab7062c/icon-tree.jpg",
+      "size": "stretch"
     }
   ]
 }
