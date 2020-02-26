@@ -27,7 +27,6 @@ namespace TrueQuizBot.WebApi.Dialogs
 
         private async Task<DialogTurnResult> StartQuiz(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await _dataProvider.AddUser(stepContext.Context.Activity.From.Id);
             return await stepContext.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
         }
 

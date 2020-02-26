@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace TrueQuizBot.Infrastructure.Migrations
 {

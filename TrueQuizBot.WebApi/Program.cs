@@ -24,7 +24,7 @@ namespace TrueQuizBot.WebApi
 
                 host.Run();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignored
             }

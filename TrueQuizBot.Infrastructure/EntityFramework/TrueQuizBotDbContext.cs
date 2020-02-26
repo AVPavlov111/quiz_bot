@@ -29,20 +29,21 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             Database.CurrentTransaction.Commit();
         }
 
-        public async Task<User?> FindUser(string userId)
+        public async Task<User> GetOrCreateUser(string userId)
         {
-            return await Set<User?>()
+            var user = await Set<User?>()
                 .Include(u => u!.AnswerStatistics)
                 .Include(u => u!.PersonalData)
-                .SingleOrDefaultAsync(u => u.UserId == userId);
-        }
+                .SingleOrDefaultAsync(u => u!.UserId == userId);
 
-        public async Task<User> GetUser(string userId)
-        {
-            return await Set<User>()
-                .Include(u => u.AnswerStatistics)
-                .Include(u => u.PersonalData)
-                .SingleAsync(u => u.UserId == userId);
+            if (user != null)
+            {
+                return user;
+            }
+            
+            user = new User(userId);
+            Add(user);
+            return user;
         }
     }
 }

@@ -12,39 +12,23 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             _contextFactory = contextFactory;
         }
-        
-        public async Task<User> AddUser(string userId)
-        {
-            var createdUser = await _contextFactory.RunInTransaction(async dbContext =>
-            {
-                var user = await dbContext.FindUser(userId);
-                if (user != null)
-                {
-                    return user;
-                }
-                
-                user = new User(userId);
-                dbContext.Add(user);
-                await dbContext.CommitAsync();
-
-                return user;
-            });
-          
-            return createdUser;
-        }
 
         public async Task<List<int>> GetCompletedQuestionsIndexes(string userId)
         {
-            await using var context = _contextFactory.GetContext();
-            var user = await context.GetUser(userId);
-            return user.AnswerStatistics.Select(a => a.QuestionIndex).ToList();
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetOrCreateUser(userId);
+                var result = user.AnswerStatistics.Select(a => a.QuestionIndex).ToList();
+                await dbContext.CommitAsync();
+                return result;
+            });
         }
 
         public async Task SaveAnswer(string userId, Question question, string answer)
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
-                var user =  await dbContext.GetUser(userId);
+                var user =  await dbContext.GetOrCreateUser(userId);
                 user.SaveAnswer(new AnswerStatistic
                 {
                     Answer = answer,
@@ -60,7 +44,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
-                var user = await dbContext.GetUser(userId);
+                var user = await dbContext.GetOrCreateUser(userId);
                 user.ClearAnswerStatistic();
                 await dbContext.CommitAsync();
             });
@@ -70,7 +54,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
-                var user = await dbContext.GetUser(userId);
+                var user = await dbContext.GetOrCreateUser(userId);
                 user.SavePersonalData(personalData);
                 await dbContext.CommitAsync();
             });
@@ -78,9 +62,12 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
 
         public async Task<bool> IsUserAlreadyEnterPersonalData(string userId)
         {
-            await using var context = _contextFactory.GetContext();
-            var user = await context.GetUser(userId);
-            return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user =  await dbContext.GetOrCreateUser(userId);
+                await dbContext.CommitAsync();
+                return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
+            });
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
 
         public TrueQuizBotDbContext CreateDbContext(string[] args)
         {
-           return new TrueQuizBotDbContext(GetSqlServerOptions(null));
+           return new TrueQuizBotDbContext(GetSqlServerOptions(null!));
         }
     }
 }

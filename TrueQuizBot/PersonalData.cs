@@ -1,5 +1,3 @@
-using System;
-
 namespace TrueQuizBot
 {
     public class PersonalData

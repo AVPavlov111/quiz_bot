@@ -5,7 +5,6 @@ namespace TrueQuizBot
 {
     public interface IDataProvider
     {
-        Task<User> AddUser(string userId);
         Task<List<int>> GetCompletedQuestionsIndexes(string userId);
         Task SaveAnswer(string userId, Question question, string answer);
         Task ClearAnswerStatistic(string userId);
