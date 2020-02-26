@@ -29,7 +29,7 @@ namespace TrueQuizBot.WebApi
 
             services.AddSingleton<IQuestionsProvider, QuestionProvider>();
 
-            services.AddScoped<IDataProvider, SqlServerDataProvider>();
+            services.AddSingleton<IDataProvider, SqlServerDataProvider>();
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();

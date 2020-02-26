@@ -50,6 +50,7 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             var activity = Activity.CreateMessageActivity();
             activity.Text = _question.Text;
+            activity.TextFormat = "xml";
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
 
