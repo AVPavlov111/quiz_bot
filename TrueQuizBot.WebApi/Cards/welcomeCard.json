@@ -8,7 +8,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Привет! Я — True_bot, знаю несколько интересных задачек.",
+      "text": "Привет! Я True-Bot, знаю задачки на логику, могу проверить уровень твоего везения, а еще – рассказать про True_инженерные_эмоции на SnowOne. Чем займемся?",
       "wrap": true,
       "maxLines": 0
     },
@@ -40,6 +40,98 @@
       "type": "Image",
       "url": "https://trueengineering.ru/dam/jcr:f5c073f4-ba95-47bf-97dc-78032ab7062c/icon-tree.jpg",
       "size": "stretch"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "True_задачи на логику",
+      "card": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "body": [
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "text": "Нажимай /start, чтобы начать игру",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "Если не знаешь ответ — пропускай вопрос, потом ты сможешь к нему вернуться",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "За участие в квизе — дарим призы и супер-призы ТОП-10 в рейтинге, подробности расскажу позже!",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "Кстати, сегодня в 11-15 наши Java-разработчики в зале воркшопов рассказывают как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать, а потестить инструмент можно на нашем стенде в течение всего дня!",
+            "wrap": true,
+            "maxLines": 0
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "True_везение",
+      "card": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "body": [
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "text": "Заполни эту анкету и приходи в 16-10 на стенд True Engineering на третьем этаже попытать удачу:  среди заполнивших анкету случайным образом выберем трех счастливых обладателей рюкзаков для ноутбука!",
+            "wrap": true,
+            "maxLines": 0
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "True_эмоции",
+      "card": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "body": [
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "text": "Приходи на стенд True Engineering за настоящими эмоциями: \n   - **True_кофе**: угостим на нашем стенде\n   - **True_решение боевого кейса**: расскажем, как с применением Kafka streams и KSQL в качестве инструмента дебагинга создать онлайн аналитику. Встречаемся на мастер-классе в зале #2 в 10-15.\n - **True_конструктор:** научим собирать из гигантских кубиков **Куборо** настоящий механизм\n - **True_викторина:** проверь свой кругозор\n - **True_разговоры про технологии** на нашем стенде\n - **True_подарки** для настоящих инженеров: носки, стикеры, книги, рюкзаки и беджики настоящих джавистов",
+            "wrap": true,
+            "maxLines": 0
+          }
+        ]
+      }
     }
   ]
 }
