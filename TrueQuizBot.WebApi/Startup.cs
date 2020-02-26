@@ -53,6 +53,7 @@ namespace TrueQuizBot.WebApi
             services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
 
             services.AddTransient(isp => new TrueQuizBotDbContext(TrueQuizBotDbContextFactory.GetSqlServerOptions(Configuration.GetConnectionString("DefaultConnection"))));
+            services.AddSingleton<DbContextFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

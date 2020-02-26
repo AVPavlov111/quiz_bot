@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -105,11 +106,11 @@ namespace TrueQuizBot.WebApi.Dialogs
         
         private async Task<DialogTurnResult> FinalStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if ((bool)stepContext.Result)
+            if ((bool) stepContext.Result)
             {
-                var personalData = (PersonalData)stepContext.Options;
+                var personalData = (PersonalData) stepContext.Options;
                 personalData.IsAcceptedPersonalDataProcessing = true;
-                _dataProvider.SavePersonalData(stepContext.Context.Activity.From.Id, personalData);
+                await _dataProvider.SavePersonalData(stepContext.Context.Activity.From.Id, personalData);
 
                 return await stepContext.EndDialogAsync(personalData, cancellationToken);
             }

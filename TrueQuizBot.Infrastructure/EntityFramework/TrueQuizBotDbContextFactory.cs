@@ -1,9 +1,8 @@
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using TrueQuizBot.Infrastructure.EntityFramework;
 
-namespace TrueQuizBot.Infrastructure
+namespace TrueQuizBot.Infrastructure.EntityFramework
 {
     public class TrueQuizBotDbContextFactory : IDesignTimeDbContextFactory<TrueQuizBotDbContext>
     {

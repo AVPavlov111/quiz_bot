@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -18,9 +19,9 @@ namespace TrueQuizBot.Infrastructure
             _questions = LoadQuestions();
         }
         
-        public Question? GetQuestion(string userId)
+        public async Task<Question?> GetQuestion(string userId)
         {
-            var completedQuestionsIndexes = _dataProvider.GetCompletedQuestionsIndexes(userId);
+            var completedQuestionsIndexes = await _dataProvider.GetCompletedQuestionsIndexes(userId);
             var range = Enumerable.Range(0, _questions.Count).Where(i => !completedQuestionsIndexes.Contains(i));
 
             var notCompletedQuestionsCount = _questions.Count - completedQuestionsIndexes.Count;
@@ -42,7 +43,7 @@ namespace TrueQuizBot.Infrastructure
             using var reader = new StreamReader(stream);
             var questionsStr = reader.ReadToEnd();
             var result = JsonConvert.DeserializeObject<QuestionsContainer>(questionsStr);
-            return result.Questions.ToList();
+            return result.Questions.Take(1).ToList();
         }
 
         private class QuestionsContainer

@@ -16,8 +16,10 @@ namespace TrueQuizBot.WebApi
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
                 // Send a message to the user
-                await turnContext.SendActivityAsync("The bot encountered an error or bug.");
-                await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
+                await turnContext.SendActivityAsync($"{exception.Message}");
+                await turnContext.SendActivityAsync($"{exception.StackTrace}");
+                await turnContext.SendActivityAsync($"{exception.InnerException?.Message}");
+                await turnContext.SendActivityAsync($"{exception.InnerException?.StackTrace}");
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error");

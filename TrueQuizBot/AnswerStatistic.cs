@@ -4,7 +4,7 @@ namespace TrueQuizBot
 {
     public class AnswerStatistic
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         public int QuestionIndex { get; set; }
         public bool IsCorrect { get; set; }
         public string? Answer { get; set; }

@@ -39,7 +39,7 @@ namespace TrueQuizBot.WebApi.Dialogs
 
         private async Task<DialogTurnResult> ShowQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var question = _questionsProvider.GetQuestion(stepContext.Context.Activity.From.Id);
+            var question = await _questionsProvider.GetQuestion(stepContext.Context.Activity.From.Id);
 
             if (question == null)
             {
@@ -92,7 +92,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 throw new Exception("_question is null");
             }
 
-            _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
+            await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
             var completeQuestionText = "НЕТ";
             if (_question.IsCorrectAnswer(answer))
             {

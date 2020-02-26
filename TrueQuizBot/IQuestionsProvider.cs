@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace TrueQuizBot
 {
     public interface IQuestionsProvider
     {
-        Question? GetQuestion(string userId);
+        Task<Question?> GetQuestion(string userId);
     }
 }

@@ -1,59 +1,85 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TrueQuizBot.Infrastructure.EntityFramework
 {
     public class SqlServerDataProvider : IDataProvider
     {
-        private readonly TrueQuizBotDbContext _context;
+        private readonly DbContextFactory _contextFactory;
 
-        public SqlServerDataProvider(TrueQuizBotDbContext context)
+        public SqlServerDataProvider(DbContextFactory contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
-        public User AddUser(string userId)
+        
+        public async Task<User> AddUser(string userId)
         {
-            var user = new User(userId);
-            _context.AddUser(user);
-            return user;
+            var createdUser = await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.FindUser(userId);
+                if (user != null)
+                {
+                    return user;
+                }
+                
+                user = new User(userId);
+                dbContext.Add(user);
+                await dbContext.CommitAsync();
+
+                return user;
+            });
+          
+            return createdUser;
         }
 
-        public List<int> GetCompletedQuestionsIndexes(string userId)
+        public async Task<List<int>> GetCompletedQuestionsIndexes(string userId)
         {
-            var user = _context.GetUser(userId);
+            await using var context = _contextFactory.GetContext();
+            var user = await context.GetUser(userId);
             return user.AnswerStatistics.Select(a => a.QuestionIndex).ToList();
         }
 
-        public void SaveAnswer(string userId, Question question, string answer)
+        public async Task SaveAnswer(string userId, Question question, string answer)
         {
-            var user = _context.GetUser(userId);
-            user.SaveAnswer(new AnswerStatistic
+            await _contextFactory.RunInTransaction(async dbContext =>
             {
-                Answer = answer,
-                IsCorrect = question.IsCorrectAnswer(answer),
-                QuestionIndex = question.Index,
-                PointsNumber = question.PointsNumber
+                var user =  await dbContext.GetUser(userId);
+                user.SaveAnswer(new AnswerStatistic
+                {
+                    Answer = answer,
+                    IsCorrect = question.IsCorrectAnswer(answer),
+                    QuestionIndex = question.Index,
+                    PointsNumber = question.PointsNumber
+                });
+                await dbContext.CommitAsync();
             });
-            _context.SaveChanges();
         }
 
-        public void ClearAnswerStatistic(string userId)
+        public async Task ClearAnswerStatistic(string userId)
         {
-            var user = _context.GetUser(userId);
-            user.ClearAnswerStatistic();
-            _context.SaveChanges();
+            await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetUser(userId);
+                user.ClearAnswerStatistic();
+                await dbContext.CommitAsync();
+            });
         }
 
-        public void SavePersonalData(string userId, PersonalData personalData)
+        public async Task SavePersonalData(string userId, PersonalData personalData)
         {
-            var user = _context.GetUser(userId);
-            user.SavePersonalData(personalData);
-            _context.SaveChanges();
+            await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetUser(userId);
+                user.SavePersonalData(personalData);
+                await dbContext.CommitAsync();
+            });
         }
 
-        public bool IsUserAlreadyEnterPersonalData(string userId)
+        public async Task<bool> IsUserAlreadyEnterPersonalData(string userId)
         {
-            var user = _context.GetUser(userId);
+            await using var context = _contextFactory.GetContext();
+            var user = await context.GetUser(userId);
             return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrueQuizBot.Infrastructure.Migrations
 {
@@ -27,12 +26,13 @@ namespace TrueQuizBot.Infrastructure.Migrations
                 schema: "TQB",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionIndex = table.Column<int>(nullable: false),
                     IsCorrect = table.Column<bool>(nullable: false),
                     Answer = table.Column<string>(nullable: true),
                     PointsNumber = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,13 +51,14 @@ namespace TrueQuizBot.Infrastructure.Migrations
                 schema: "TQB",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(maxLength: 32, nullable: true),
                     LastName = table.Column<string>(maxLength: 128, nullable: true),
                     PhoneNumber = table.Column<string>(maxLength: 16, nullable: true),
                     Email = table.Column<string>(maxLength: 64, nullable: true),
                     IsAcceptedPersonalDataProcessing = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,8 +83,7 @@ namespace TrueQuizBot.Infrastructure.Migrations
                 schema: "TQB",
                 table: "PersonalData",
                 column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

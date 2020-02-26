@@ -1,4 +1,5 @@
-using System.Linq;
+using System.Data;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace TrueQuizBot.Infrastructure.EntityFramework
@@ -10,27 +11,38 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         }
 
         public const string DefaultSchemaName = "TQB";
-        
-        public DbSet<User> Users { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             modelBuilder.HasDefaultSchema(DefaultSchemaName);
         }
         
-        public User AddUser(User user)
+        public void BeginTransaction(IsolationLevel isolationLevel)
         {
-            Users.Add(user);
-            base.SaveChanges();
-            return user;
+            Database.BeginTransaction(isolationLevel);
         }
-        
-        public User GetUser(string userId)
+
+        public async Task CommitAsync()
         {
-            return Users.FirstOrDefault(u => u.UserId == userId)
-                   // ReSharper disable once ConstantNullCoalescingCondition
-                   ?? AddUser(new User(userId));
+            await SaveChangesAsync();
+            Database.CurrentTransaction.Commit();
+        }
+
+        public async Task<User?> FindUser(string userId)
+        {
+            return await Set<User?>()
+                .Include(u => u!.AnswerStatistics)
+                .Include(u => u!.PersonalData)
+                .SingleOrDefaultAsync(u => u.UserId == userId);
+        }
+
+        public async Task<User> GetUser(string userId)
+        {
+            return await Set<User>()
+                .Include(u => u.AnswerStatistics)
+                .Include(u => u.PersonalData)
+                .SingleAsync(u => u.UserId == userId);
         }
     }
 }
