@@ -21,7 +21,10 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:3979;http://localhost:3978",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Data Source=127.0.0.1;Initial Catalog=TrueQuizBot;User Id=sa; Password=2wsx2WSX;",
+        "MicrosoftAppId": "",
+        "MicrosoftAppPassword": ""
       }
     }
   }

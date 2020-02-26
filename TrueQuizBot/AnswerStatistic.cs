@@ -10,8 +10,8 @@ namespace TrueQuizBot
         public string? Answer { get; set; }
         public int PointsNumber { get; set; }
         
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; } = default!;
+        public User User { get; set; } = null!;
 
     }
 }

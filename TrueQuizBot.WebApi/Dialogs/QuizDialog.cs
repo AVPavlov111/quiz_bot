@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Activity = Microsoft.Bot.Schema.Activity;
 
-namespace TrueQuizBot.Dialogs
+namespace TrueQuizBot.WebApi.Dialogs
 {
     public class QuizDialog : CancelAndHelpDialog
     {

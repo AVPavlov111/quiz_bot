@@ -5,11 +5,10 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrueQuizBot.Bots;
-using TrueQuizBot.Dialogs;
 using TrueQuizBot.Infrastructure;
 using TrueQuizBot.Infrastructure.EntityFramework;
-using TrueQuizBot.WebApi.Infrastructure;
+using TrueQuizBot.WebApi.Bots;
+using TrueQuizBot.WebApi.Dialogs;
 
 namespace TrueQuizBot.WebApi
 {

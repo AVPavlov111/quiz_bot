@@ -11,9 +11,9 @@ namespace TrueQuizBot
         public string? Email { get;  set;}
         
         public bool IsAcceptedPersonalDataProcessing { get;  set;}
-        
-        public string UserId { get; set; }
-        public User User { get; set; }
+
+        public string UserId { get; set; } = default!;
+        public User User { get; set; } = null!;
 
         public void Update(PersonalData personalData)
         {
