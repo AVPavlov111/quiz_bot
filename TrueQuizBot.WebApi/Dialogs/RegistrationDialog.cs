@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace TrueQuizBot.Dialogs
+namespace TrueQuizBot.WebApi.Dialogs
 {
     public class RegistrationDialog : CancelAndHelpDialog
     {

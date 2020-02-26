@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace TrueQuizBot.Bots
+namespace TrueQuizBot.WebApi.Bots
 {
     public class DialogBot<T> : ActivityHandler
         where T : Dialog

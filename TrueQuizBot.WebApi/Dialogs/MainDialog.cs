@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace TrueQuizBot.Dialogs
+namespace TrueQuizBot.WebApi.Dialogs
 {
     public class MainDialog : ComponentDialog
     {

@@ -13,7 +13,6 @@
   <ItemGroup>
     <None Remove="Questions.txt" />
     <EmbeddedResource Include="Cards\welcomeCard.json" />
-    <EmbeddedResource Include="Questions.json" />
   </ItemGroup>
 
   <ItemGroup>

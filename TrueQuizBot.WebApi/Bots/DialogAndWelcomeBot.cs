@@ -14,7 +14,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace TrueQuizBot.Bots
+namespace TrueQuizBot.WebApi.Bots
 {
     public class DialogAndWelcomeBot<T> : DialogBot<T>
         where T : Dialog

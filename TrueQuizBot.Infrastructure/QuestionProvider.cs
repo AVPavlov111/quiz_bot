@@ -5,7 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace TrueQuizBot.WebApi.Infrastructure
+namespace TrueQuizBot.Infrastructure
 {
     public class QuestionProvider : IQuestionsProvider
     {
@@ -35,7 +35,7 @@ namespace TrueQuizBot.WebApi.Infrastructure
 
         private List<Question> LoadQuestions()
         {
-            const string questionsPath = "TrueQuizBot.WebApi.Questions.json";
+            const string questionsPath = "TrueQuizBot.Infrastructure.Questions.json";
 
             using var stream = GetType().Assembly.GetManifestResourceStream(questionsPath);
             Debug.Assert(stream != null, nameof(stream) + " != null");
