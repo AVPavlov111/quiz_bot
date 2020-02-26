@@ -1,11 +1,11 @@
 {
-  "questions": [    
+  "questions": [
     {
       "index": 0,
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Нет, нет и нет!</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!,!&!!",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -16,7 +16,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Не всё</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!*",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -27,7 +27,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Всё равно</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "*=",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -38,7 +38,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Всё больше и больше</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "*>&>",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -49,29 +49,29 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Приблизительно</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!#=",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 2
     },
     {
       "index": 5,
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Почти всё</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!#*",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 2
     },
     {
       "index": 6,
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Больше нет!</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": ">!!",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -82,7 +82,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Не всё ли равно?</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!*=?",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -93,7 +93,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Точно нет?</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "#!",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -104,7 +104,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>Не вопрос</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "!?",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -115,18 +115,18 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>И чо?</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "&40",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 2
     },
     {
       "index": 11,
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка и мат.символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>И ничо!</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "value 2",
+      "correctAnswer": "&!40!",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
@@ -137,11 +137,11 @@
       "text": "int i = ???;  \ni = i++ + ++i;  \ni = i++ + ++i;  \nSystem.out.println(i);  \n<i>В консоль будет выведено 100. Чему равно i?</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "116088046",
+      "correctAnswer": "165",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 2
     },
     {
       "index": 13,
@@ -152,7 +152,7 @@
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 3
     },
     {
       "index": 14,
@@ -163,18 +163,18 @@
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 2
     },
     {
       "index": 15,
       "text": "Рэймен и Даймен сказали, что *U2FsdGVkX1/lZ593RWtapa6k1V7BNrazjGjuoHXB6l7mfmy9LvpZW4VNMGkj39X9 g*  \nпридет к тебе сегодня.  \n<i>Кто придет? Ответ тебе поможет открыть True Engineering.</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "Катя Никитина",
+      "correctAnswer": "Write once, run anywhere",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 4
     },
     {
       "index": 16,
@@ -185,7 +185,7 @@
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,
-      "pointsNumber": 1
+      "pointsNumber": 5
     }
   ]
 }
