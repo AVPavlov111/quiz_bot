@@ -8,38 +8,9 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Привет! Я True-Bot, знаю задачки на логику, могу проверить уровень твоего везения, а еще – рассказать про True_инженерные_эмоции на SnowOne. Чем займемся?",
+      "text": "Привет! Я True_Bot, знаю задачки на логику, могу проверить уровень твоего везения, а еще – рассказать про True_инженерные_эмоции на SnowOne. В каждом варианте мы припасли для тебя приятные сувениры и полезные подарки. Во что больше веришь, в инженерное мышление, удачу, или активность? Чем займемся?",
       "wrap": true,
       "maxLines": 0
-    },
-    {
-      "type": "TextBlock",
-      "size": "default",
-      "isSubtle": true,
-      "text": "Нажимай /start, чтобы начать игру",
-      "wrap": true,
-      "maxLines": 0
-    },
-    {
-      "type": "TextBlock",
-      "size": "default",
-      "isSubtle": true,
-      "text": "Если не знаешь ответ — пропускай вопрос, потом ты сможешь к нему вернуться",
-      "wrap": true,
-      "maxLines": 0
-    },
-    {
-      "type": "TextBlock",
-      "size": "default",
-      "isSubtle": true,
-      "text": "Сегодня в 16-10 мы подведём итоги и наградим трёх самых быстрых участников с максимальным количеством правильный ответов",
-      "wrap": true,
-      "maxLines": 0
-    },
-    {
-      "type": "Image",
-      "url": "https://trueengineering.ru/dam/jcr:f5c073f4-ba95-47bf-97dc-78032ab7062c/icon-tree.jpg",
-      "size": "stretch"
     }
   ],
   "actions": [
@@ -106,7 +77,17 @@
             "spacing": "medium",
             "size": "default",
             "weight": "bolder",
-            "text": "Заполни эту анкету и приходи в 16-10 на стенд True Engineering на третьем этаже попытать удачу:  среди заполнивших анкету случайным образом выберем трех счастливых обладателей рюкзаков для ноутбука!",
+            "text": "Заполни эту анкету и приходи в 16:10 на стенд True Engineering на третьем этаже попытать удачу.   Случайным образом мы определим трех везучих обладателей рюкзаков для ноутбука! Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "Кстати, сегодня в 11:15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику логов с применением Kafka streams фреймворка. Приходи послушать!  После МК сможешь потестить инструмент на нашем стенде в любое время.",
             "wrap": true,
             "maxLines": 0
           }
@@ -126,7 +107,87 @@
             "spacing": "medium",
             "size": "default",
             "weight": "bolder",
-            "text": "Приходи на стенд True Engineering за настоящими эмоциями: \n   - **True_кофе**: угостим на нашем стенде\n   - **True_решение боевого кейса**: расскажем, как с применением Kafka streams и KSQL в качестве инструмента дебагинга создать онлайн аналитику. Встречаемся на мастер-классе в зале #2 в 10-15.\n - **True_конструктор:** научим собирать из гигантских кубиков **Куборо** настоящий механизм\n - **True_викторина:** проверь свой кругозор\n - **True_разговоры про технологии** на нашем стенде\n - **True_подарки** для настоящих инженеров: носки, стикеры, книги, рюкзаки и беджики настоящих джавистов",
+            "text": "Приходи на стенд True Engineering за настоящими эмоциями. Попробуй все, поучаствуй везде, собери на каждой станции по стикеру в буклет и получи призы!",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "За прохождение всех станций –True_футболка.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "10 самым быстрым – True_толстовка.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_МК (зал «Демо-стейдж»  в 11:15):** расскажем, как с применением Kafka streams и KSQL создать онлайн аналитику логов приложения.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_кофе:** ароматный, настоящий, приходи взбодриться.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_bot_квиз:** задачки для настоящих инженеров с подарками участникам и победителям.",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_конструктор:** научим собирать из гигантских кубиков **Куборо** настоящий механизм",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_викторина:** проверь свой кругозор на больших кнопках ",
+            "wrap": true,
+            "maxLines": 0
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "medium",
+            "size": "default",
+            "weight": "bolder",
+            "isSubtle": true,
+            "text": "**True_разговоры про технологии** на нашем стенде",
             "wrap": true,
             "maxLines": 0
           }
