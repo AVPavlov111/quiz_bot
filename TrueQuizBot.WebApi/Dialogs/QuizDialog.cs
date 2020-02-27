@@ -20,9 +20,6 @@ namespace TrueQuizBot.WebApi.Dialogs
         private Question? _question;
         private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
-        
-        const string TrueImagePath = "TrueQuizBot.Infrastructure.true.png";
-        const string FalseImagePath = "TrueQuizBot.Infrastructure.false.png";
 
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
