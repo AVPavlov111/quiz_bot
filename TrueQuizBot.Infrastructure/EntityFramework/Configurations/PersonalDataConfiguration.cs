@@ -15,5 +15,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework.Configurations
             builder.Property(x => x.Email).HasMaxLength(64);
             builder.Property(x => x.PhoneNumber).HasMaxLength(16);
         }
+
+        
     }
 }

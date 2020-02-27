@@ -60,6 +60,16 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             });
         }
 
+        public async Task SavePersonalDataFromTrueLucky(string userId, TrueLuckyPersonalData luckyPersonalData)
+        {
+            await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetOrCreateUser(userId);
+                user.SaveTrueLuckyPersonalData(luckyPersonalData);
+                await dbContext.CommitAsync();
+            });
+        }
+
         public async Task<bool> IsUserAlreadyEnterPersonalData(string userId)
         {
             return await _contextFactory.RunInTransaction(async dbContext =>

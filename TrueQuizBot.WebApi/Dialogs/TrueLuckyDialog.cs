@@ -10,38 +10,109 @@ namespace TrueQuizBot.WebApi.Dialogs
 {
     public class TrueLuckyDialog : CancelAndHelpDialog
     {
-        public TrueLuckyDialog(string id) : base(nameof(TrueLuckyDialog))
+        private readonly IDataProvider _dataProvider;
+        private const string DisplayNameText = "Твои фамилия и имя";
+        private const string PhoneNumberText = "Телефон";
+        private const string CompanyNameText = "В какой компании работаешь?";
+        private const string PositionText = "На какой должности?";
+        private const string InterestsText = "Какой стек технологий тебе интересен?";
+
+        public TrueLuckyDialog(string id, IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
         {
+            _dataProvider = dataProvider;
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowRegistrationMessage,
+                PhoneNumberStep,
+                CompanyNameStep,
+                PositionStep,
+                InterestsStep,
                 ShowFinalMessage,
                 DetermineNextDialog
             }));
-            
+
             InitialDialogId = nameof(WaterfallDialog);
         }
-        
+
         private async Task<DialogTurnResult> ShowRegistrationMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var initialText = @"
 Заполни эту анкету и приходи в 16:10 на стенд True Engineering на третьем этаже попытать удачу. Случайным образом мы определим трех везучих обладателей рюкзаков для ноутбука! Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия.
 
 Кстати, сегодня в 11:15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику логов с применением Kafka streams фреймворка. Приходи послушать!  После МК сможешь потестить инструмент на нашем стенде в любое время.
-                                ";
-            var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
-            var promptOptions = new PromptOptions
-            {
-                Prompt = promptMessage
-            };
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+                                ";
+            var promptMessage = MessageFactory.Text(DisplayNameText, DisplayNameText, InputHints.ExpectingInput);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
         }
-        
+
+        private async Task<DialogTurnResult> PhoneNumberStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+
+            personalData.DisplayName = (string) stepContext.Result;
+
+            if (personalData.PhoneNumber == null)
+            {
+                var promptMessage = MessageFactory.Text(PhoneNumberText, PhoneNumberText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.PhoneNumber, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> CompanyNameStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+
+            personalData.PhoneNumber = (string) stepContext.Result;
+
+            if (personalData.CompanyName == null)
+            {
+                var promptMessage = MessageFactory.Text(CompanyNameText, CompanyNameText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.CompanyName, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> PositionStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+
+            personalData.CompanyName = (string) stepContext.Result;
+
+            if (personalData.Position == null)
+            {
+                var promptMessage = MessageFactory.Text(PositionText, PositionText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.Position, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> InterestsStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+
+            personalData.Position = (string) stepContext.Result;
+
+            if (personalData.Interests == null)
+            {
+                var promptMessage = MessageFactory.Text(InterestsText, InterestsText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.Interests, cancellationToken);
+        }
+
         private async Task<DialogTurnResult?> ShowFinalMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+            await _dataProvider.SavePersonalDataFromTrueLucky(stepContext.Context.Activity.From.Id, personalData);
+
             var initialText = @"
 Спасибо. Лотерейный билет создан. 
 
@@ -58,13 +129,12 @@ namespace TrueQuizBot.WebApi.Dialogs
                 {
                     new Choice(Constants.TrueTasksTitle),
                     new Choice(Constants.TrueLuckyTitle)
-                    
                 }
             };
 
             return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
         }
-        
+
         private async Task<DialogTurnResult?> DetermineNextDialog(DialogContext innerDc, CancellationToken cancellationToken)
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)

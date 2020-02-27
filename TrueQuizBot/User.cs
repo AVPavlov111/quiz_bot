@@ -12,6 +12,7 @@ namespace TrueQuizBot
         public string UserId { get; }
         public List<AnswerStatistic> AnswerStatistics { get; set; }
         public PersonalData? PersonalData { get; set; }
+        public TrueLuckyPersonalData? TrueLuckyPersonalData { get; set; }
 
         public void SaveAnswer(AnswerStatistic answerStatistic)
         {
@@ -30,6 +31,15 @@ namespace TrueQuizBot
                 PersonalData = new PersonalData();
             }
             PersonalData.Update(personalData);
+        }
+
+        public void SaveTrueLuckyPersonalData(TrueLuckyPersonalData luckyPersonalData)
+        {
+            if (TrueLuckyPersonalData == null)
+            {
+                TrueLuckyPersonalData = new TrueLuckyPersonalData();
+            }
+            TrueLuckyPersonalData.Update(luckyPersonalData);
         }
     }
 }
