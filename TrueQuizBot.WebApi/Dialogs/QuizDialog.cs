@@ -24,7 +24,6 @@ namespace TrueQuizBot.WebApi.Dialogs
             _questionsProvider = questionsProvider;
             _dataProvider = dataProvider;
             AddDialog(new TextPrompt(nameof(TextPrompt)));
-            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {

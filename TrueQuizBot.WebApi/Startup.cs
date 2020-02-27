@@ -44,13 +44,14 @@ namespace TrueQuizBot.WebApi
             services.AddSingleton<ConversationState>();
             
             services.AddSingleton<QuizDialog>();
+            services.AddSingleton<TrueEmotionsDialog>();
             
             services.AddSingleton<RegistrationDialog>();
 
             services.AddSingleton<MainDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             services.AddTransient(isp => new TrueQuizBotDbContext(TrueQuizBotDbContextFactory.GetSqlServerOptions(Configuration.GetConnectionString("DefaultConnection"))));
             services.AddSingleton<DbContextFactory>();
