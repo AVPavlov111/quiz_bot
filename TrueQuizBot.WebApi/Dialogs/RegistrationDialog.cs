@@ -13,7 +13,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string LastNameText = "Пожалуйста, введите фамилию";
         private const string PhoneNumberText = "Пожалуйста, введите номер телефона";
         private const string EmailText = "Пожалуйста, введите email";
-        private const string IsAcceptedText = "Согласны на обработку персональных данных? https://academicquizbot.blob.core.windows.net/content/PP.htm";
+        private const string IsAcceptedText = "Согласны на обработку персональных данных? https://truebotwebapp.azurewebsites.net/personalDataAcceptance.htm";
 
         public RegistrationDialog(IDataProvider dataProvider) 
             : base(nameof(RegistrationDialog))
