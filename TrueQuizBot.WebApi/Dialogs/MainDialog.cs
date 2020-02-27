@@ -22,6 +22,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new QuizDialog(questionsProvider, dataProvider));
             AddDialog(new TrueEmotionsDialog(dataProvider, questionsProvider, nameof(TrueEmotionsDialog)));
+            AddDialog(new TrueLuckyDialog(nameof(TrueEmotionsDialog)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 AcceptanceStep,
@@ -60,7 +61,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                     case "True_эмоции":
                         return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog), null, cancellationToken);
                     case "True_везение":
-                        return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
+                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog), null, cancellationToken);
                     case "True_задачи":
                         return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
                 }
