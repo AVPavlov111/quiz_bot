@@ -73,17 +73,17 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
             
             var activity = Activity.CreateMessageActivity();
-            var builder = new StringBuilder();
           
-            builder.AppendLine($" :nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.");
-            builder.AppendLine();
-            builder.AppendLine(" :blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!");
-            builder.AppendLine();
-            builder.AppendLine(" :stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.");
+            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
             
+            text = ":blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
             
-            activity.Text = builder.ToString();
-            activity.TextFormat = "xml";
+            text = ":stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.";
+            activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
         }
 
