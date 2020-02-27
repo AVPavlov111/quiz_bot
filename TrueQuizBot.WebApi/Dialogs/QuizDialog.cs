@@ -16,6 +16,8 @@ namespace TrueQuizBot.WebApi.Dialogs
         private readonly IQuestionsProvider _questionsProvider;
         private readonly IDataProvider _dataProvider;
         private Question? _question;
+        private const string TrueImg = "https://truebotwebapp.azurewebsites.net/true.png";
+        private const string FalseImg = "https://truebotwebapp.azurewebsites.net/false.png";
         private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
 
@@ -88,22 +90,30 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             if (_question.QuestionType == QuestionType.Choice)
             {
-                var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
-                var retryActivity = new Activity(ActivityTypes.Message) { Text = "retry text" };
-                var promptOptions = new PromptOptions
-                {
-                    Prompt = promptMessage,
-                    Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList(),
-                    RetryPrompt = retryActivity
-                };
-                return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+                return await ShowChiceQuestion(stepContext, cancellationToken);
             }
-            else
+
+            return await ShowTextQuestion(stepContext, cancellationToken);
+        }
+
+        private static async Task<DialogTurnResult> ShowTextQuestion(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
+            var promptOptions = new PromptOptions { Prompt = promptMessage };
+            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> ShowChiceQuestion(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
+            var retryActivity = new Activity(ActivityTypes.Message) { Text = "retry text" };
+            var promptOptions = new PromptOptions
             {
-                var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
-                var promptOptions = new PromptOptions { Prompt = promptMessage };
-                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
-            }
+                Prompt = promptMessage,
+                Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList(),
+                RetryPrompt = retryActivity
+            };
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
         }
 
         private async Task<DialogTurnResult> CheckAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -124,30 +134,27 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
 
             await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
-            var completeQuestionText = "https://truebotwebapp.azurewebsites.net/false.png";
 
-            var attachment = new Attachment()
-            {
-                ContentUrl = "https://truebotwebapp.azurewebsites.net/false.png",
-                ContentType = "image/png",
-                Name = ""
-            };
-            
-            if (_question.IsCorrectAnswer(answer))
-            {
-                attachment.ContentUrl = "https://truebotwebapp.azurewebsites.net/true.png";
-            }
+            await ShowAnswerImage(stepContext, cancellationToken, _question.IsCorrectAnswer(answer));
 
+            var promptMessage = MessageFactory.Text("", "", InputHints.ExpectingInput);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
+        }
+
+        private static async Task ShowAnswerImage(DialogContext stepContext, CancellationToken cancellationToken, bool isAnswerCorrect)
+        {
             var activity = Activity.CreateMessageActivity();
-            activity.Attachments = new List<Attachment>()
+            activity.Attachments = new List<Attachment>
             {
-                attachment
+                new Attachment
+                {
+                    ContentUrl = isAnswerCorrect ? TrueImg : FalseImg,
+                    ContentType = "image/png",
+                    Name = ""
+                }
             };
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-
-            var promptMessage = MessageFactory.Text(completeQuestionText, completeQuestionText, InputHints.ExpectingInput);
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
 
         private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
