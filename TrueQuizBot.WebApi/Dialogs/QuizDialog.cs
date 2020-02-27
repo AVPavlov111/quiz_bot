@@ -21,6 +21,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string FalseImg = "https://truebotwebapp.azurewebsites.net/false.png";
         private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
+        private const string SkipCommand = "/skip_question";
 
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
@@ -73,12 +74,16 @@ namespace TrueQuizBot.WebApi.Dialogs
             
             var activity = Activity.CreateMessageActivity();
             var builder = new StringBuilder();
-            builder.AppendLine(":nerd_face:Если не знаешь ответ – пропускай вопрос (/skip), потом ты сможешь к нему вернуться или оставить без ответа.");
-            builder.AppendLine(":blush:Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!");
-            builder.AppendLine(":stuck_out_tongue_winking_eye:Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.");
+          
+            builder.AppendLine($" :nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.");
+            builder.AppendLine();
+            builder.AppendLine(" :blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!");
+            builder.AppendLine();
+            builder.AppendLine(" :stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.");
             
             
             activity.Text = builder.ToString();
+            activity.TextFormat = "xml";
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
         }
 
