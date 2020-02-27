@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -42,12 +43,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         
         private async Task<DialogTurnResult> ShowQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if ((await _dataProvider.GetCompletedQuestionsIndexes(GetUserId(stepContext))).Any() == false)
-            {
-                var activity = Activity.CreateMessageActivity();
-                activity.Text = "";
-                await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-            }
+            await ShowIntroMessageIfNeed(stepContext, cancellationToken);
             
             var question = await _questionsProvider.GetQuestion(GetUserId(stepContext));
 
@@ -66,6 +62,24 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
 
             return await ShowQuestionWithTextAnswer(stepContext, cancellationToken);
+        }
+
+        private async Task ShowIntroMessageIfNeed(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            if ((await _dataProvider.GetCompletedQuestionsIndexes(GetUserId(stepContext))).Any())
+            {
+                return;
+            }
+            
+            var activity = Activity.CreateMessageActivity();
+            var builder = new StringBuilder();
+            builder.AppendLine("Если не знаешь ответ – пропускай вопрос (/skip), потом ты сможешь к нему вернуться или оставить без ответа.");
+            builder.AppendLine("Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!");
+            builder.AppendLine("Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.");
+            
+            
+            activity.Text = builder.ToString();
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
         }
 
 
