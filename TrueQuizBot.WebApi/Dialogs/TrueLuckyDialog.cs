@@ -26,7 +26,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
-                ShowRegistrationMessage,
+                ShowGreetingMessage,
                 PhoneNumberStep,
                 CompanyNameStep,
                 PositionStep,
@@ -39,15 +39,21 @@ namespace TrueQuizBot.WebApi.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
         
-        private async Task<DialogTurnResult> ShowRegistrationMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> ShowGreetingMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var initialText = @"
 Заполни эту анкету и приходи в 16:10 на стенд True Engineering на третьем этаже попытать удачу. Случайным образом мы определим трех везучих обладателей рюкзаков для ноутбука! Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия.
 
-Кстати, сегодня в 11:15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику логов с применением Kafka streams фреймворка. Приходи послушать!  После МК сможешь потестить инструмент на нашем стенде в любое время.
+:stuck_out_tongue_winking_eye: Кстати, сегодня в 11:15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику логов с применением Kafka streams фреймворка. Приходи послушать!  После МК сможешь потестить инструмент на нашем стенде в любое время.
+";
+            
+            var activity = Activity.CreateMessageActivity();
+            activity.Text = initialText;
+            
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            var promptMessage = MessageFactory.Text(DisplayNameText);
 
-                                ";
-            var promptMessage = MessageFactory.Text(DisplayNameText, DisplayNameText, InputHints.ExpectingInput);
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
         }
 
