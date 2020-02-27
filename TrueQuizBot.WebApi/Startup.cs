@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,11 @@ namespace TrueQuizBot.WebApi
 {
     public class Startup
     {
+        private const string CosmosServiceEndpoint = "https://truequizbot-db.documents.azure.com:443/";  
+        private const string CosmosDbKey = "DtwTNQsFwKLhbq1HUc8gKZfJi0h5gp2XFogu06Bs3dOSTgplMuA6NHPiVjWHUyi3FSHfxynpbCarjp708gcwKw==";  
+        private const string CosmosDbDatabaseName = "truequizbot-db";  
+        private const string CosmosDbCollectionName = "truequizbot-storage";
+
         public IConfiguration Configuration { get; set; }
 
         public Startup(IConfiguration configuration)
@@ -33,9 +40,14 @@ namespace TrueQuizBot.WebApi
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-            
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
-            services.AddSingleton<IStorage, MemoryStorage>();
+
+            services.AddSingleton<IStorage>(isp => new CosmosDbStorage(new CosmosDbStorageOptions  
+            {  
+                AuthKey = CosmosDbKey,  
+                CollectionId = CosmosDbCollectionName,  
+                CosmosDBEndpoint = new Uri(CosmosServiceEndpoint),  
+                DatabaseId = CosmosDbDatabaseName,  
+            }));
 
             // Create the User state. (Used in this bot's Dialog implementation.)
             services.AddSingleton<UserState>();
