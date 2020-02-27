@@ -11,18 +11,15 @@ namespace TrueQuizBot.WebApi.Dialogs
     public class MainDialog : ComponentDialog
     {
         private readonly IDataProvider _dataProvider;
-        
-        private const string HelpMsgText = "Show help here";
-        private const string CancelMsgText = "Cancelling...";
-        
+
         public MainDialog(IDataProvider dataProvider, IQuestionsProvider questionsProvider)
             : base(nameof(MainDialog))
         {
             _dataProvider = dataProvider;
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new QuizDialog(questionsProvider, dataProvider));
-            AddDialog(new TrueEmotionsDialog(dataProvider, questionsProvider, nameof(TrueEmotionsDialog)));
-            AddDialog(new TrueLuckyDialog(nameof(TrueEmotionsDialog), dataProvider));
+            AddDialog(new TrueEmotionsDialog(dataProvider, questionsProvider));
+            AddDialog(new TrueLuckyDialog(dataProvider));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 AcceptanceStep,

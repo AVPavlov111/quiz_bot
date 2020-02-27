@@ -10,12 +10,12 @@ namespace TrueQuizBot.WebApi.Dialogs
 {
     public class TrueEmotionsDialog : CancelAndHelpDialog
     {
-        public TrueEmotionsDialog(IDataProvider dataProvider, IQuestionsProvider questionsProvider, string id) : base(nameof(TrueEmotionsDialog))
+        public TrueEmotionsDialog(IDataProvider dataProvider, IQuestionsProvider questionsProvider) : base(nameof(TrueEmotionsDialog))
         {
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new QuizDialog(questionsProvider, dataProvider));
-            AddDialog(new TrueLuckyDialog(nameof(TrueEmotionsDialog), dataProvider));
+            AddDialog(new TrueLuckyDialog(dataProvider));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowTrueEmotionsCard,

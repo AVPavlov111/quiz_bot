@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace TrueQuizBot.Infrastructure.EntityFramework
 {
@@ -107,7 +106,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             {
                 var users = (await dbContext.GetUsers()).ToArray();
                 var count = users.Length;
-                var rand = new Random();;
+                var rand = new Random();
                 var randomIndexes = new List<int>();
                 
                 for (var i = 0; i < 3; i++)
