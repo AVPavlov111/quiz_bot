@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +20,9 @@ namespace TrueQuizBot.WebApi.Dialogs
         private Question? _question;
         private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
+        
+        const string TrueImagePath = "TrueQuizBot.Infrastructure.true.png";
+        const string FalseImagePath = "TrueQuizBot.Infrastructure.false.png";
 
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
@@ -93,14 +99,25 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
 
             await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
-            var completeQuestionText = "НЕТ";
+            var completeQuestionText = "https://truebotwebapp.azurewebsites.net/false.png";
+
+            var attachment = new Attachment()
+            {
+                ContentUrl = "https://truebotwebapp.azurewebsites.net/false.png",
+                ContentType = "image/png",
+                Name = ""
+            };
+            
             if (_question.IsCorrectAnswer(answer))
             {
-                completeQuestionText = "ДА!";
+                attachment.ContentUrl = "https://truebotwebapp.azurewebsites.net/true.png";
             }
 
             var activity = Activity.CreateMessageActivity();
-            activity.Text = completeQuestionText;
+            activity.Attachments = new List<Attachment>()
+            {
+                attachment
+            };
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
 

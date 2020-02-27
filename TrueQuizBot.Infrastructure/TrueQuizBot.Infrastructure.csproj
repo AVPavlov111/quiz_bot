@@ -33,6 +33,8 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Questions.json" />
+      <None Remove="false.png" />
+      <None Remove="true.png" />
     </ItemGroup>
 
 </Project>

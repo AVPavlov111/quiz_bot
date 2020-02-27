@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="wwwroot\false.png" />
+    <EmbeddedResource Include="wwwroot\true.png" />
     <None Remove="Questions.txt" />
     <EmbeddedResource Include="Cards\welcomeCard.json" />
   </ItemGroup>
