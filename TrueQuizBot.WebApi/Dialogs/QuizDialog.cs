@@ -27,6 +27,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowQuestion,
@@ -36,6 +37,35 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
+        }
+        
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            var result = await InterruptAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult?> InterruptAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var text = innerDc.Context.Activity.Text;
+
+                switch (text)
+                {
+                    case Constants.TrueEmotionsTitle:
+                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog));
+                    case Constants.TrueLuckyTitle:
+                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog));
+                }
+            }
+
+            return null;
         }
 
         private async Task<DialogTurnResult> ShowQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)

@@ -38,6 +38,35 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             InitialDialogId = nameof(WaterfallDialog);
         }
+        
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            var result = await InterruptAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult?> InterruptAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var text = innerDc.Context.Activity.Text;
+
+                switch (text)
+                {
+                    case Constants.TrueEmotionsTitle:
+                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog));
+                    case Constants.TrueTasksTitle:
+                        return await innerDc.BeginDialogAsync(nameof(QuizDialog));
+                }
+            }
+
+            return null;
+        }
 
         private async Task<DialogTurnResult> ShowRegistrationMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
