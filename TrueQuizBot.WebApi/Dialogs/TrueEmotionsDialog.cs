@@ -10,12 +10,11 @@ namespace TrueQuizBot.WebApi.Dialogs
 {
     public class TrueEmotionsDialog : CancelAndHelpDialog
     {
-        public TrueEmotionsDialog(IDataProvider dataProvider, IQuestionsProvider questionsProvider) : base(nameof(TrueEmotionsDialog))
+        public TrueEmotionsDialog() 
+            : base(nameof(TrueEmotionsDialog))
         {
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new QuizDialog(questionsProvider, dataProvider));
-            AddDialog(new TrueLuckyDialog(dataProvider));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowTrueEmotionsCard,
@@ -24,6 +23,35 @@ namespace TrueQuizBot.WebApi.Dialogs
             
             InitialDialogId = nameof(WaterfallDialog);
         }
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            var result = await InterruptAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult?> InterruptAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var text = innerDc.Context.Activity.Text;
+
+                switch (text)
+                {
+                    case Constants.TrueLuckyTitle:
+                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog));
+                    case Constants.TrueTasksTitle:
+                        return await innerDc.BeginDialogAsync(nameof(QuizDialog));
+                }
+            }
+
+            return null;
+        }
+        
         
         private async Task<DialogTurnResult> ShowTrueEmotionsCard(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
