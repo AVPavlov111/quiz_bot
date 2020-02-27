@@ -20,7 +20,7 @@ namespace TrueQuizBot
 
         public bool IsCorrectAnswer(string answer)
         {
-            return string.Equals(CorrectAnswer, answer, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(CorrectAnswer, answer.Trim(), StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
