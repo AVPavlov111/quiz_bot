@@ -106,7 +106,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             {
                 var users = (await dbContext.GetUsers()).ToArray();
                 var count = users.Length;
-                var rand = new Random();;
+                var rand = new Random();
                 var randomIndexes = new List<int>();
                 
                 for (var i = 0; i < 3; i++)

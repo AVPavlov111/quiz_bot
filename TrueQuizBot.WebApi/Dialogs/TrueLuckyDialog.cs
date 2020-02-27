@@ -18,7 +18,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string InterestsText = "Какой стек технологий тебе интересен?";
         private const string IsAcceptedText = "Согласны на обработку персональных данных? https://academicquizbot.blob.core.windows.net/content/PP.htm";
 
-        public TrueLuckyDialog(string id, IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
+        public TrueLuckyDialog(IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
         {
             _dataProvider = dataProvider;
             AddDialog(new TextPrompt(nameof(TextPrompt)));

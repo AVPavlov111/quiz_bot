@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using TrueQuizBot.Infrastructure.EntityFramework;
+// ReSharper disable PartialTypeWithSinglePart
 
 namespace TrueQuizBot.Infrastructure.Migrations
 {
