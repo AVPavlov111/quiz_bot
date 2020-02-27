@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TrueQuizBot.Infrastructure.EntityFramework
 {
@@ -77,6 +79,50 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 var user =  await dbContext.GetOrCreateUser(userId);
                 await dbContext.CommitAsync();
                 return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
+            });
+        }
+
+        public async Task<List<Winner>> GetWinners(int count)
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var users = await dbContext.GetUsers();
+                var winners = users
+                    .OrderByDescending(user =>
+                        user.AnswerStatistics.Where(stat => stat.IsCorrect)
+                            .Sum(stat => stat.PointsNumber)).Take(count);
+                return winners.Select(winner => new Winner()
+                {
+                    FirstName = winner.PersonalData.FirstName,
+                    LastName = winner.PersonalData.LastName,
+                    PhoneNumber = winner.PersonalData.PhoneNumber,
+                    TotalSum = winner.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber)
+                }).ToList();
+            });
+        }
+
+        public async Task<List<Winner>> GetLuckers()
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var users = (await dbContext.GetUsers()).ToArray();
+                var count = users.Length;
+                var rand = new Random();;
+                var randomIndexes = new List<int>();
+                
+                for (var i = 0; i < 3; i++)
+                {
+                    randomIndexes.Add(rand.Next(0, count-1));
+                }
+
+                var winners = randomIndexes.Select(randomIndex => users[randomIndex]).ToList();
+
+                return winners.Select(winner => new Winner()
+                {
+                    FirstName = winner.PersonalData.FirstName,
+                    LastName = winner.PersonalData.LastName,
+                    PhoneNumber = winner.PersonalData.PhoneNumber
+                }).ToList();
             });
         }
     }

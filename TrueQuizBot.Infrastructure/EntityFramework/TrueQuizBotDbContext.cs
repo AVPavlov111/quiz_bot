@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,14 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             user = new User(userId);
             Add(user);
             return user;
+        }
+        
+        public async Task<List<User>> GetUsers()
+        {
+            return await Set<User?>()
+                .Include(u => u!.AnswerStatistics)
+                .Include(u => u!.PersonalData)
+                .ToListAsync();
         }
     }
 }
