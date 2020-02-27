@@ -41,9 +41,9 @@ namespace TrueQuizBot.WebApi.Dialogs
                 Prompt = promptMessage,
                 Choices = new List<Choice>()
                 {
-                    new Choice("True_эмоции"),
-                    new Choice("True_везение"),
-                    new Choice("True_задачи ")
+                    new Choice(Constants.TrueEmotionsTitle),
+                    new Choice(Constants.TrueLuckyTitle),
+                    new Choice(Constants.TrueTasksTitle)
                 }
             };
 
@@ -58,11 +58,11 @@ namespace TrueQuizBot.WebApi.Dialogs
 
                 switch (text)
                 {
-                    case "True_эмоции":
+                    case Constants.TrueEmotionsTitle:
                         return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog), null, cancellationToken);
-                    case "True_везение":
+                    case Constants.TrueLuckyTitle:
                         return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog), null, cancellationToken);
-                    case "True_задачи":
+                    case Constants.TrueTasksTitle:
                         return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
                 }
             }
