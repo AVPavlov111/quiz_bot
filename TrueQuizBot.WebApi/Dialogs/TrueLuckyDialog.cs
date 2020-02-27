@@ -23,6 +23,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             _dataProvider = dataProvider;
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowRegistrationMessage,
@@ -117,7 +118,8 @@ namespace TrueQuizBot.WebApi.Dialogs
             personalData.Interests = (string) stepContext.Result;
 
             var promptMessage = MessageFactory.Text(IsAcceptedText, IsAcceptedText, InputHints.ExpectingInput);
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
         }
 
         private async Task<DialogTurnResult?> ShowFinalMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
