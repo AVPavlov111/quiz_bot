@@ -37,13 +37,19 @@ namespace TrueQuizBot.WebApi.Dialogs
                 OriginStepAsync
             }));
 
-            // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
         
         private async Task<DialogTurnResult> ShowQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var question = await _questionsProvider.GetQuestion(stepContext.Context.Activity.From.Id);
+            if ((await _dataProvider.GetCompletedQuestionsIndexes(GetUserId(stepContext))).Any() == false)
+            {
+                var activity = Activity.CreateMessageActivity();
+                activity.Text = "";
+                await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            }
+            
+            var question = await _questionsProvider.GetQuestion(GetUserId(stepContext));
 
             if (question == null)
             {
@@ -52,40 +58,16 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             _question = question;
 
-            var activity = Activity.CreateMessageActivity();
-            activity.Text = _question.Text;
-            activity.TextFormat = "xml";
-
-            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-
+            await ShowQuestionText(stepContext, cancellationToken);
 
             if (_question.QuestionType == QuestionType.Choice)
             {
-                return await ShowChiceQuestion(stepContext, cancellationToken);
+                return await ShowChices(stepContext, cancellationToken);
             }
 
-            return await ShowTextQuestion(stepContext, cancellationToken);
+            return await ShowQuestionWithTextAnswer(stepContext, cancellationToken);
         }
 
-        private static async Task<DialogTurnResult> ShowTextQuestion(DialogContext stepContext, CancellationToken cancellationToken)
-        {
-            var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
-            var promptOptions = new PromptOptions { Prompt = promptMessage };
-            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult> ShowChiceQuestion(DialogContext stepContext, CancellationToken cancellationToken)
-        {
-            var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
-            var retryActivity = new Activity(ActivityTypes.Message) { Text = "retry text" };
-            var promptOptions = new PromptOptions
-            {
-                Prompt = promptMessage,
-                Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList(),
-                RetryPrompt = retryActivity
-            };
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
-        }
 
         private async Task<DialogTurnResult> CheckAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -112,6 +94,44 @@ namespace TrueQuizBot.WebApi.Dialogs
             return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
 
+        private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text("Some text 3", "Some text 4", InputHints.ExpectingInput);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
+        }
+        
+        private async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            var activity = Activity.CreateMessageActivity();
+            activity.Text = _question.Text;
+            activity.TextFormat = "xml";
+
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+        }
+
+        private static string GetUserId(DialogContext stepContext)
+        {
+            return stepContext.Context.Activity.From.Id;
+        }
+
+        private async Task<DialogTurnResult> ShowChices(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
+            var promptOptions = new PromptOptions
+            {
+                Prompt = promptMessage,
+                Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList()
+            };
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+        }
+        
+        private static async Task<DialogTurnResult> ShowQuestionWithTextAnswer(DialogContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
+            var promptOptions = new PromptOptions { Prompt = promptMessage };
+            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+        }
+        
         private static async Task ShowAnswerImage(DialogContext stepContext, CancellationToken cancellationToken, bool isAnswerCorrect)
         {
             var activity = Activity.CreateMessageActivity();
@@ -126,12 +146,6 @@ namespace TrueQuizBot.WebApi.Dialogs
             };
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            var promptMessage = MessageFactory.Text("Some text 3", "Some text 4", InputHints.ExpectingInput);
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
     }
 }
