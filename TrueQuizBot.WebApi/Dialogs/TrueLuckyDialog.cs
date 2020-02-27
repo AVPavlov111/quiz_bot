@@ -16,6 +16,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string CompanyNameText = "В какой компании работаешь?";
         private const string PositionText = "На какой должности?";
         private const string InterestsText = "Какой стек технологий тебе интересен?";
+        private const string IsAcceptedText = "Согласны на обработку персональных данных? https://academicquizbot.blob.core.windows.net/content/PP.htm";
 
         public TrueLuckyDialog(string id, IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
         {
@@ -29,6 +30,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 CompanyNameStep,
                 PositionStep,
                 InterestsStep,
+                AcceptanceStep,
                 ShowFinalMessage,
                 DetermineNextDialog
             }));
@@ -108,12 +110,24 @@ namespace TrueQuizBot.WebApi.Dialogs
             return await stepContext.NextAsync(personalData.Interests, cancellationToken);
         }
 
-        private async Task<DialogTurnResult?> ShowFinalMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AcceptanceStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var personalData = (TrueLuckyPersonalData) stepContext.Options;
-            await _dataProvider.SavePersonalDataFromTrueLucky(stepContext.Context.Activity.From.Id, personalData);
 
-            var initialText = @"
+            personalData.Interests = (string) stepContext.Result;
+
+            var promptMessage = MessageFactory.Text(IsAcceptedText, IsAcceptedText, InputHints.ExpectingInput);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult?> ShowFinalMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if ((bool) stepContext.Result)
+            {
+                var personalData = (TrueLuckyPersonalData) stepContext.Options;
+                await _dataProvider.SavePersonalDataFromTrueLucky(stepContext.Context.Activity.From.Id, personalData);
+
+                var initialText = @"
 Спасибо. Лотерейный билет создан. 
 
 Но, как говорится, на удачу надейся, а сам не плошай. 
@@ -121,18 +135,21 @@ namespace TrueQuizBot.WebApi.Dialogs
 Увеличим твои шансы на выигрыш?
 
 ";
-            var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
-            var promptOptions = new PromptOptions
-            {
-                Prompt = promptMessage,
-                Choices = new List<Choice>()
+                var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
+                var promptOptions = new PromptOptions
                 {
-                    new Choice(Constants.TrueTasksTitle),
-                    new Choice(Constants.TrueLuckyTitle)
-                }
-            };
+                    Prompt = promptMessage,
+                    Choices = new List<Choice>()
+                    {
+                        new Choice(Constants.TrueTasksTitle),
+                        new Choice(Constants.TrueLuckyTitle)
+                    }
+                };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+                return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+            }
+
+            return await stepContext.EndDialogAsync(null, cancellationToken);
         }
 
         private async Task<DialogTurnResult?> DetermineNextDialog(DialogContext innerDc, CancellationToken cancellationToken)
