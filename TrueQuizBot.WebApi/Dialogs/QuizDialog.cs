@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -22,7 +21,9 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
         private const string SkipCommand = "/skip_question";
-
+        private const string IntroMessageId = "IntroMessageId";
+        private const string QuizDialogId = "QuizDialogId";
+        
         public QuizDialog(IQuestionsProvider questionsProvider, IDataProvider dataProvider)
             : base(nameof(QuizDialog))
         {
@@ -32,20 +33,49 @@ namespace TrueQuizBot.WebApi.Dialogs
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
+            AddDialog(new WaterfallDialog(IntroMessageId, new WaterfallStep[]
+            {
+                ShowIntroMessageIfNeed,
+                CheckAnswer,
+                OriginStepAsync
+            }));
+            AddDialog(new WaterfallDialog(QuizDialogId, new WaterfallStep[]
             {
                 ShowQuestion,
                 CheckAnswer,
                 OriginStepAsync
             }));
 
-            InitialDialogId = nameof(WaterfallDialog);
+            InitialDialogId = IntroMessageId;
+        }
+        
+        private async Task<DialogTurnResult> ShowIntroMessageIfNeed(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptMessage = MessageFactory.Text("", "", InputHints.ExpectingInput);
+            if ((await _dataProvider.GetCompletedQuestionsIndexes(GetUserId(stepContext))).Any())
+            {
+                return await stepContext.ReplaceDialogAsync(QuizDialogId, promptMessage, cancellationToken);
+            }
+            
+            var activity = Activity.CreateMessageActivity();
+          
+            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = ":blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = ":stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+
+            return await stepContext.ReplaceDialogAsync(QuizDialogId, promptMessage, cancellationToken);
         }
         
         private async Task<DialogTurnResult> ShowQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await ShowIntroMessageIfNeed(stepContext, cancellationToken);
-            
             var question = await _questionsProvider.GetQuestion(GetUserId(stepContext));
 
             if (question == null)
@@ -65,29 +95,6 @@ namespace TrueQuizBot.WebApi.Dialogs
             return await ShowQuestionWithTextAnswer(stepContext, cancellationToken);
         }
 
-        private async Task ShowIntroMessageIfNeed(DialogContext stepContext, CancellationToken cancellationToken)
-        {
-            if ((await _dataProvider.GetCompletedQuestionsIndexes(GetUserId(stepContext))).Any())
-            {
-                return;
-            }
-            
-            var activity = Activity.CreateMessageActivity();
-          
-            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.";
-            activity.Text = text;
-            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-            
-            text = ":blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!";
-            activity.Text = text;
-            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-            
-            text = ":stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.";
-            activity.Text = text;
-            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-        }
-
-
         private async Task<DialogTurnResult> CheckAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             string answer;
@@ -100,17 +107,20 @@ namespace TrueQuizBot.WebApi.Dialogs
                 answer = (string) stepContext.Result;
             }
 
-            if (_question == null)
+            if (string.Equals(answer, SkipCommand, StringComparison.OrdinalIgnoreCase) == false)
             {
-                throw new Exception("_question is null");
+                if (_question == null)
+                {
+                    throw new Exception("_question is null");
+                }
+
+                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
+
+                await ShowAnswerImage(stepContext, cancellationToken, _question.IsCorrectAnswer(answer));
             }
 
-            await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
-
-            await ShowAnswerImage(stepContext, cancellationToken, _question.IsCorrectAnswer(answer));
-
             var promptMessage = MessageFactory.Text("", "", InputHints.ExpectingInput);
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
+            return await stepContext.ReplaceDialogAsync(QuizDialogId, promptMessage, cancellationToken);
         }
 
         private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
