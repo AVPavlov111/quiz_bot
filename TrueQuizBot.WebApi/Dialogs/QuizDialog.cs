@@ -15,7 +15,6 @@ namespace TrueQuizBot.WebApi.Dialogs
     {
         private readonly IQuestionsProvider _questionsProvider;
         private readonly IDataProvider _dataProvider;
-        private Question? _question;
         private const string TrueImg = "https://truebotwebapp.azurewebsites.net/true.png";
         private const string FalseImg = "https://truebotwebapp.azurewebsites.net/false.png";
         private const string ChoiceText = "Выберите один из вариантов ответа";
@@ -83,13 +82,13 @@ namespace TrueQuizBot.WebApi.Dialogs
                 return await stepContext.EndDialogAsync(null, cancellationToken);
             }
 
-            _question = question;
+            await _dataProvider.SaveQurrentQuestionIndex(GetUserId(stepContext), question.Index);
 
-            await ShowQuestionText(stepContext, cancellationToken);
+            await ShowQuestionText(stepContext, cancellationToken, question);
 
-            if (_question.QuestionType == QuestionType.Choice)
+            if (question.QuestionType == QuestionType.Choice)
             {
-                return await ShowChices(stepContext, cancellationToken);
+                return await ShowChoices(stepContext, cancellationToken, question);
             }
 
             return await ShowQuestionWithTextAnswer(stepContext, cancellationToken);
@@ -109,14 +108,10 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             if (string.Equals(answer, SkipCommand, StringComparison.OrdinalIgnoreCase) == false)
             {
-                if (_question == null)
-                {
-                    throw new Exception("_question is null");
-                }
+                var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
+                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
 
-                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, _question, answer);
-
-                await ShowAnswerImage(stepContext, cancellationToken, _question.IsCorrectAnswer(answer));
+                await ShowAnswerImage(stepContext, cancellationToken, question.IsCorrectAnswer(answer));
             }
 
             var promptMessage = MessageFactory.Text("", "", InputHints.ExpectingInput);
@@ -129,10 +124,10 @@ namespace TrueQuizBot.WebApi.Dialogs
             return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
         
-        private async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken)
+        private static async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken, Question? question)
         {
             var activity = Activity.CreateMessageActivity();
-            activity.Text = _question.Text;
+            activity.Text = question.Text;
             activity.TextFormat = "xml";
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
@@ -143,13 +138,13 @@ namespace TrueQuizBot.WebApi.Dialogs
             return stepContext.Context.Activity.From.Id;
         }
 
-        private async Task<DialogTurnResult> ShowChices(DialogContext stepContext, CancellationToken cancellationToken)
+        private static async Task<DialogTurnResult> ShowChoices(DialogContext stepContext, CancellationToken cancellationToken, Question? question)
         {
             var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
             var promptOptions = new PromptOptions
             {
                 Prompt = promptMessage,
-                Choices = _question.Answers.Select(a => new Choice { Value = a }).ToList()
+                Choices = question.Answers.Select(a => new Choice { Value = a }).ToList()
             };
             return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
         }

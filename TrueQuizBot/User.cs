@@ -13,6 +13,8 @@ namespace TrueQuizBot
         public List<AnswerStatistic> AnswerStatistics { get; set; }
         public PersonalData? PersonalData { get; set; }
         public TrueLuckyPersonalData? TrueLuckyPersonalData { get; set; }
+        
+        public int? CurrentQuestionIndex { get; set; }
 
         public void SaveAnswer(AnswerStatistic answerStatistic)
         {

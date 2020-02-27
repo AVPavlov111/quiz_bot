@@ -13,5 +13,7 @@ namespace TrueQuizBot
         Task<bool> IsUserAlreadyEnterPersonalData(string userId);
         Task<List<Winner>> GetWinners(int count);
         Task<List<Winner>> GetLuckers();
+        Task<int?> GetCurrentQuestionIndex(string userId);
+        Task SaveQurrentQuestionIndex(string userId, int questionIndex);
     }
 }

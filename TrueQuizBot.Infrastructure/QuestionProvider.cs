@@ -22,16 +22,23 @@ namespace TrueQuizBot.Infrastructure
         public async Task<Question?> GetQuestion(string userId)
         {
             var completedQuestionsIndexes = await _dataProvider.GetCompletedQuestionsIndexes(userId);
-            var range = Enumerable.Range(0, _questions.Count).Where(i => !completedQuestionsIndexes.Contains(i));
+            var currentQuestionIndex = await _dataProvider.GetCurrentQuestionIndex(userId);
+            
+            List<Question?> incompletedQuestions = _questions.Where(q => !completedQuestionsIndexes.Contains(q.Index)).ToList();
 
-            var notCompletedQuestionsCount = _questions.Count - completedQuestionsIndexes.Count;
-            if (notCompletedQuestionsCount == 0)
+            if (incompletedQuestions.Any() == false)
             {
                 return null;
             }
-            
-            var questionIndex = range.ElementAt(0);
-            return _questions.FirstOrDefault(q => q.Index == questionIndex);
+
+            var resultQuestion = incompletedQuestions.FirstOrDefault(q => q.Index > currentQuestionIndex);
+            return resultQuestion ?? incompletedQuestions.First();
+        }
+
+        public async Task<Question?> GetCurrentQuestion(string userId)
+        {
+            var index = await _dataProvider.GetCurrentQuestionIndex(userId);
+            return index == null ? null : _questions.First(q => q.Index == index);
         }
 
         private List<Question> LoadQuestions()

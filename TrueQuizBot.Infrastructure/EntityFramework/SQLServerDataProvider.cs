@@ -124,5 +124,25 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 }).ToList();
             });
         }
+
+        public async Task<int?> GetCurrentQuestionIndex(string userId)
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user =  await dbContext.GetOrCreateUser(userId);
+                await dbContext.CommitAsync();
+                return user.CurrentQuestionIndex;
+            });
+        }
+
+        public async Task SaveQurrentQuestionIndex(string userId, int questionIndex)
+        {
+            await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user =  await dbContext.GetOrCreateUser(userId);
+                user.CurrentQuestionIndex = questionIndex;
+                await dbContext.CommitAsync();
+            });
+        }
     }
 }
