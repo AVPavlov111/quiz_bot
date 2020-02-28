@@ -29,6 +29,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
+                answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 var user =  await dbContext.GetOrCreateUser(userId);
                 user.SaveAnswer(new AnswerStatistic
                 {

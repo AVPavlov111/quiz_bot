@@ -112,6 +112,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
                 await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
 
+                answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 await ShowAnswerImage(stepContext, cancellationToken, question.IsCorrectAnswer(answer));
             }
 
