@@ -19,7 +19,10 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
                 var user = await dbContext.GetOrCreateUser(userId);
-                var result = user.AnswerStatistics.Select(a => a.QuestionIndex).ToList();
+                var result = user.AnswerStatistics
+                    .Where(a => a.IsCorrect)
+                    .Select(a => a.QuestionIndex)
+                    .ToList();
                 await dbContext.CommitAsync();
                 return result;
             });

@@ -56,16 +56,16 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
             
             var activity = Activity.CreateMessageActivity();
-          
-            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}).";
-            activity.Text = text;
-            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-            
-            text = ":blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!";
+
+            var text = ":blush: Всем участникам квиза мы приготовили призы. И супер-призы для ТОП-10 в рейтинге. Подробности расскажу позже!";
             activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
             
             text = ":stuck_out_tongue_winking_eye: Кстати, сегодня в 11-15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику с применением Kafka streams фреймворка. Приходи послушать! После МК сможешь потестить инструмент на нашем стенде в любое время.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = $":nerd_face: A теперь начнем игру!";
             activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
 
@@ -104,14 +104,19 @@ namespace TrueQuizBot.WebApi.Dialogs
             {
                 answer = (string) stepContext.Result;
             }
+            
+            var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
 
             if (string.Equals(answer, SkipCommand, StringComparison.OrdinalIgnoreCase) == false)
             {
-                var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
                 await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
 
                 answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 await ShowAnswerImage(stepContext, cancellationToken, question.IsCorrectAnswer(answer));
+            }
+            else
+            {
+                await _dataProvider.SaveQurrentQuestionIndex(GetUserId(stepContext), question.Index + 1);
             }
 
             var promptMessage = MessageFactory.Text("", "", InputHints.ExpectingInput);
@@ -151,7 +156,13 @@ namespace TrueQuizBot.WebApi.Dialogs
         
         private static async Task<DialogTurnResult> ShowQuestionWithTextAnswer(DialogContext stepContext, CancellationToken cancellationToken)
         {
-            var promptMessage = MessageFactory.Text(TextAnswer, TextAnswer, InputHints.AcceptingInput);
+            var activity = Activity.CreateMessageActivity();
+            activity.Text = TextAnswer;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            var skipText = $"Если не знаешь ответ – пропускай вопрос ({SkipCommand}).";
+            
+            var promptMessage = MessageFactory.Text(skipText, skipText, InputHints.AcceptingInput);
             var promptOptions = new PromptOptions { Prompt = promptMessage };
             return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
         }

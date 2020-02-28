@@ -31,7 +31,7 @@ namespace TrueQuizBot.Infrastructure
                 return null;
             }
 
-            var resultQuestion = incompletedQuestions.FirstOrDefault(q => q.Index > currentQuestionIndex);
+            var resultQuestion = incompletedQuestions.FirstOrDefault(q => q.Index >= currentQuestionIndex);
             // ReSharper disable once ConstantNullCoalescingCondition
             return resultQuestion ?? incompletedQuestions.First();
         }
