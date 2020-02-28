@@ -43,8 +43,8 @@ namespace TrueQuizBot.WebApi.Dialogs
         {
             var personalData = (PersonalData)stepContext.Options;
 
-            var text = "Мои вопросы закончились, теперь расскажи о себе, а я следующим сообщением напишу как и где забрать приз за участие в моей игре .";
-            var activity = Activity.CreateMessageActivity();;
+            const string text = "Мои вопросы закончились, теперь расскажи о себе, а я следующим сообщением напишу как и где забрать приз за участие в моей игре .";
+            var activity = Activity.CreateMessageActivity();
             activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity);
 
