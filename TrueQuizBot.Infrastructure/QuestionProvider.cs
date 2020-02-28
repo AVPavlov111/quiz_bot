@@ -24,7 +24,7 @@ namespace TrueQuizBot.Infrastructure
             var completedQuestionsIndexes = await _dataProvider.GetCompletedQuestionsIndexes(userId);
             var currentQuestionIndex = await _dataProvider.GetCurrentQuestionIndex(userId);
             
-            List<Question?> incompletedQuestions = _questions.Where(q => !completedQuestionsIndexes.Contains(q.Index)).ToList();
+            var incompletedQuestions = _questions.Where(q => !completedQuestionsIndexes.Contains(q.Index)).ToList();
 
             if (incompletedQuestions.Any() == false)
             {
@@ -32,6 +32,7 @@ namespace TrueQuizBot.Infrastructure
             }
 
             var resultQuestion = incompletedQuestions.FirstOrDefault(q => q.Index > currentQuestionIndex);
+            // ReSharper disable once ConstantNullCoalescingCondition
             return resultQuestion ?? incompletedQuestions.First();
         }
 

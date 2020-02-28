@@ -90,7 +90,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                     .OrderByDescending(user =>
                         user.AnswerStatistics.Where(stat => stat.IsCorrect)
                             .Sum(stat => stat.PointsNumber)).Take(count).ToList();
-                return winners.Select(winner => new Winner()
+                return winners.Select(winner => new Winner
                 {
                     FirstName = winner.PersonalData.FirstName,
                     LastName = winner.PersonalData.LastName,
