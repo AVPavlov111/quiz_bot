@@ -27,6 +27,25 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 return result;
             });
         }
+        
+        public async Task<User> GetUser(string userId)
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetOrCreateUser(userId);
+                await dbContext.CommitAsync();
+                return user;
+            });
+        }
+
+        public async Task<bool> IsUserAlreadyRegistered(string userId)
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var user = await dbContext.GetOrCreateUser(userId);
+                return user.TrueLuckyPersonalData != null && user.TrueLuckyPersonalData.IsAcceptedPersonalDataProcessing;
+            });
+        }
 
         public async Task SaveAnswer(string userId, Question question, string answer)
         {
@@ -41,16 +60,6 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                     QuestionIndex = question.Index,
                     PointsNumber = question.PointsNumber
                 });
-                await dbContext.CommitAsync();
-            });
-        }
-
-        public async Task ClearAnswerStatistic(string userId)
-        {
-            await _contextFactory.RunInTransaction(async dbContext =>
-            {
-                var user = await dbContext.GetOrCreateUser(userId);
-                user.ClearAnswerStatistic();
                 await dbContext.CommitAsync();
             });
         }

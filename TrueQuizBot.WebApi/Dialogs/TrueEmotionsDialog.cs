@@ -68,9 +68,10 @@ namespace TrueQuizBot.WebApi.Dialogs
                 Prompt = promptMessage,
                 Choices = new List<Choice>()
                 {
-                    new Choice(Constants.TrueTasksTitle),
-                    new Choice(Constants.TrueLuckyTitle)
                     
+                    new Choice(Constants.TrueEmotionsTitle),
+                    new Choice(Constants.TrueLuckyTitle),
+                    new Choice(Constants.TrueTasksTitle)
                 }
             };
 

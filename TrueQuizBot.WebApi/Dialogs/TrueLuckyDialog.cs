@@ -11,6 +11,7 @@ namespace TrueQuizBot.WebApi.Dialogs
     public class TrueLuckyDialog : CancelAndHelpDialog
     {
         private readonly IDataProvider _dataProvider;
+        private readonly IQuestionsProvider _questionsProvider;
         private const string DisplayNameText = "Твои фамилия и имя";
         private const string PhoneNumberText = "Телефон";
         private const string CompanyNameText = "В какой компании работаешь?";
@@ -18,12 +19,14 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string InterestsText = "Какой стек технологий тебе интересен?";
         private const string IsAcceptedText = "Согласны на обработку персональных данных? \n https://trueengineering.ru/.resources/etr-site-modules/dist/assets/docs/te_personal_data_privacy_policy.pdf";
 
-        public TrueLuckyDialog(IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
+        public TrueLuckyDialog(IDataProvider dataProvider, IQuestionsProvider queryProvider) : base(nameof(TrueLuckyDialog))
         {
             _dataProvider = dataProvider;
+            _questionsProvider = queryProvider;
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
+            AddDialog(new FinalDialog());
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 ShowGreetingMessage,
@@ -32,8 +35,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 PositionStep,
                 InterestsStep,
                 AcceptanceStep,
-                ShowFinalMessage,
-                DetermineNextDialog
+                ShowFinalMessage
             }));
 
             InitialDialogId = nameof(WaterfallDialog);
@@ -41,6 +43,12 @@ namespace TrueQuizBot.WebApi.Dialogs
         
         private async Task<DialogTurnResult> ShowGreetingMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            var isUserAlreadyRegistered = await _dataProvider.IsUserAlreadyRegistered(GetUserId(stepContext));
+            if (isUserAlreadyRegistered)
+            {
+                return await stepContext.BeginDialogAsync(nameof(FinalDialog), null, cancellationToken);
+            }
+            
             var initialText = @"
 Заполни эту анкету и приходи в 16:10 на стенд True Engineering на третьем этаже попытать удачу. Случайным образом мы определим трех везучих обладателей рюкзаков для ноутбука! Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия.
 
@@ -135,11 +143,25 @@ namespace TrueQuizBot.WebApi.Dialogs
 
         private async Task<DialogTurnResult?> ShowFinalMessage(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+
+            var promtText = "Увеличим еще твои шансы на призы?";
             if ((bool) stepContext.Result)
             {
+                var text = $@"
+Приятно познакомиться виртуально!
+
+Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия";
+                
+                var activity = Activity.CreateMessageActivity();
+                activity.Text = text;
+                await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+
                 var personalData = (TrueLuckyPersonalData) stepContext.Options;
+                personalData.IsAcceptedPersonalDataProcessing = true;
                 await _dataProvider.SavePersonalDataFromTrueLucky(stepContext.Context.Activity.From.Id, personalData);
 
+                var question = await _questionsProvider.GetQuestion(GetUserId(stepContext));
+                
                 var initialText = @"
 Спасибо. Лотерейный билет создан. 
 
@@ -148,39 +170,38 @@ namespace TrueQuizBot.WebApi.Dialogs
 Увеличим твои шансы на выигрыш?
 
 ";
-                var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
-                var promptOptions = new PromptOptions
+                activity = Activity.CreateMessageActivity();
+                activity.Text = initialText;
+                await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+
+                if (question == null)
                 {
-                    Prompt = promptMessage,
-                    Choices = new List<Choice>()
-                    {
-                        new Choice(Constants.TrueTasksTitle),
-                        new Choice(Constants.TrueEmotionsTitle)
-                    }
-                };
-
-                return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
-            }
-
-            return await stepContext.EndDialogAsync(null, cancellationToken);
-        }
-
-        private async Task<DialogTurnResult?> DetermineNextDialog(DialogContext innerDc, CancellationToken cancellationToken)
-        {
-            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
-            {
-                var text = innerDc.Context.Activity.Text;
-
-                switch (text)
-                {
-                    case Constants.TrueEmotionsTitle:
-                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog), null, cancellationToken);
-                    case Constants.TrueTasksTitle:
-                        return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
+                    return await stepContext.BeginDialogAsync(nameof(FinalDialog), null, cancellationToken);
                 }
             }
+            else
+            {
+                promtText = $@"Жаль-жаль, попробуй заняться чем-то другим!";
+            }
 
-            return null;
+            var promptMessage = MessageFactory.Text(promtText, null, InputHints.ExpectingInput);
+            var promptOptions = new PromptOptions
+            {
+                Prompt = promptMessage,
+                Choices = new List<Choice>()
+                {
+                    new Choice(Constants.TrueEmotionsTitle),
+                    new Choice(Constants.TrueLuckyTitle),
+                    new Choice(Constants.TrueTasksTitle)
+                }
+            };
+
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+        }
+        
+        private static string GetUserId(DialogContext stepContext)
+        {
+            return stepContext.Context.Activity.From.Id;
         }
     }
 }
