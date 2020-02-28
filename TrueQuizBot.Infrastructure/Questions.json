@@ -115,7 +115,7 @@
       "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка, цифры и математические символы.  \n  \nНапиши фразу на новом языке:  \n  \n<i>И чо?</i>",
       "imageUrl": null,
       "answers": null,
-      "correctAnswer": "&40",
+      "correctAnswer": "&40?",
       "describeAnswerImageUrl": null,
       "describeAnswer": null,
       "questionType": 2,

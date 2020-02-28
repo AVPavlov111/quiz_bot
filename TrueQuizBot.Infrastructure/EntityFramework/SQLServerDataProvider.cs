@@ -154,7 +154,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                     .OrderByDescending(user =>
                         user.AnswerStatistics.Where(stat => stat.IsCorrect)
                             .Sum(stat => stat.PointsNumber)).ToList();
-                return winners.IndexOf(winners.Single(winner => string.Equals(winner.UserId, userId, StringComparison.InvariantCultureIgnoreCase)));
+                return winners.IndexOf(winners.Single(winner => string.Equals(winner.UserId, userId, StringComparison.InvariantCultureIgnoreCase))) + 1;
             });
         }
     }

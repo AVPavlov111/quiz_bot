@@ -129,7 +129,7 @@ namespace TrueQuizBot.WebApi.Dialogs
 
 Твои контакты мы используем для дела, будем звать тебя на наши True_мероприятия
 
-Спасибо за интересную игру {personalData.FirstName}! Твое место в рейтинге на данный момент — {currentPositionInRating}
+Спасибо за интересную игру, {personalData.FirstName}! Твое место в рейтинге на данный момент — {currentPositionInRating}
 ";
                 activity.Text = text;
                 await stepContext.Context.SendActivityAsync(activity, cancellationToken);                
