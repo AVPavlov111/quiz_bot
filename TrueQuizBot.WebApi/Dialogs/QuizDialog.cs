@@ -32,12 +32,10 @@ namespace TrueQuizBot.WebApi.Dialogs
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new RegistrationDialog(dataProvider));
+            AddDialog(new TrueLuckyDialog(dataProvider));
             AddDialog(new WaterfallDialog(IntroMessageId, new WaterfallStep[]
             {
-                ShowIntroMessageIfNeed,
-                CheckAnswer,
-                OriginStepAsync
+                ShowIntroMessageIfNeed
             }));
             AddDialog(new WaterfallDialog(QuizDialogId, new WaterfallStep[]
             {
@@ -80,7 +78,7 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             if (question == null)
             {
-                return await stepContext.BeginDialogAsync(nameof(RegistrationDialog), new PersonalData(), cancellationToken);
+                return await stepContext.BeginDialogAsync(nameof(TrueLuckyDialog), new PersonalData(), cancellationToken);
             }
 
             await _dataProvider.SaveQurrentQuestionIndex(GetUserId(stepContext), question.Index);

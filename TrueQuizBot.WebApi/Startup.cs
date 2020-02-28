@@ -58,8 +58,6 @@ namespace TrueQuizBot.WebApi
             services.AddSingleton<QuizDialog>();
             services.AddSingleton<TrueEmotionsDialog>();
             services.AddSingleton<TrueLuckyDialog>();
-            
-            services.AddSingleton<RegistrationDialog>();
 
             services.AddSingleton<MainDialog>();
 

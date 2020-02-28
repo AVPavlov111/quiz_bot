@@ -34,7 +34,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             var user = await Set<User?>()
                 .Include(u => u!.AnswerStatistics)
-                .Include(u => u!.PersonalData)
+                .Include(u => u!.TrueLuckyPersonalData)
                 .SingleOrDefaultAsync(u => u!.UserId == userId);
 
             if (user != null)
@@ -51,7 +51,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             return await Set<User?>()
                 .Include(u => u!.AnswerStatistics)
-                .Include(u => u!.PersonalData)
+                .Include(u => u!.TrueLuckyPersonalData)
                 .ToListAsync();
         }
     }

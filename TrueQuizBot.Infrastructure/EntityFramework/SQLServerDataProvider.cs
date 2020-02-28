@@ -51,16 +51,6 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             });
         }
 
-        public async Task SavePersonalData(string userId, PersonalData personalData)
-        {
-            await _contextFactory.RunInTransaction(async dbContext =>
-            {
-                var user = await dbContext.GetOrCreateUser(userId);
-                user.SavePersonalData(personalData);
-                await dbContext.CommitAsync();
-            });
-        }
-
         public async Task SavePersonalDataFromTrueLucky(string userId, TrueLuckyPersonalData luckyPersonalData)
         {
             await _contextFactory.RunInTransaction(async dbContext =>
@@ -71,32 +61,16 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             });
         }
 
-        public async Task<bool> IsUserAlreadyEnterPersonalData(string userId)
-        {
-            return await _contextFactory.RunInTransaction(async dbContext =>
-            {
-                var user =  await dbContext.GetOrCreateUser(userId);
-                await dbContext.CommitAsync();
-                return user.PersonalData != null && user.PersonalData.IsAcceptedPersonalDataProcessing;
-            });
-        }
-
         public async Task<List<Winner>> GetWinners(int count)
         {
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
                 var users = await dbContext.GetUsers();
-                var winners = users
-                    .OrderByDescending(user =>
-                        user.AnswerStatistics.Where(stat => stat.IsCorrect)
-                            .Sum(stat => stat.PointsNumber)).Take(count).ToList();
-                return winners.Select(winner => new Winner
-                {
-                    FirstName = winner.PersonalData.FirstName,
-                    LastName = winner.PersonalData.LastName,
-                    PhoneNumber = winner.PersonalData.PhoneNumber,
-                    TotalSum = winner.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber)
-                }).ToList();
+                return users
+                    .OrderByDescending(user =>  user.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber))
+                    .Take(count)
+                    .Select(user => new Winner(user))
+                    .ToList();
             });
         }
 
@@ -116,12 +90,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
 
                 var winners = randomIndexes.Select(randomIndex => users[randomIndex]).ToList();
 
-                return winners.Select(winner => new Winner()
-                {
-                    FirstName = winner.PersonalData.FirstName,
-                    LastName = winner.PersonalData.LastName,
-                    PhoneNumber = winner.PersonalData.PhoneNumber
-                }).ToList();
+                return winners.Select(user => new Winner(user)).ToList();
             });
         }
 

@@ -11,7 +11,6 @@ namespace TrueQuizBot
         }
         public string UserId { get; }
         public List<AnswerStatistic> AnswerStatistics { get; set; }
-        public PersonalData? PersonalData { get; set; }
         public TrueLuckyPersonalData? TrueLuckyPersonalData { get; set; }
         
         public int? CurrentQuestionIndex { get; set; }
@@ -24,15 +23,6 @@ namespace TrueQuizBot
         public void ClearAnswerStatistic()
         {
             AnswerStatistics.Clear();
-        }
-
-        public void SavePersonalData(PersonalData personalData)
-        {
-            if (PersonalData == null)
-            {
-                PersonalData = new PersonalData();
-            }
-            PersonalData.Update(personalData);
         }
 
         public void SaveTrueLuckyPersonalData(TrueLuckyPersonalData luckyPersonalData)
