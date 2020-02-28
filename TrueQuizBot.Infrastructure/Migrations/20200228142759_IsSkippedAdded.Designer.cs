@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrueQuizBot.Infrastructure.EntityFramework;
 
 namespace TrueQuizBot.Infrastructure.Migrations
 {
     [DbContext(typeof(TrueQuizBotDbContext))]
-    partial class TrueQuizBotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200228142759_IsSkippedAdded")]
+    partial class IsSkippedAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

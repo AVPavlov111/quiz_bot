@@ -20,7 +20,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             {
                 var user = await dbContext.GetOrCreateUser(userId);
                 var result = user.AnswerStatistics
-                    .Where(a => a.IsCorrect)
+                    .Where(a => a.IsCorrect || a.IsScipped)
                     .Select(a => a.QuestionIndex)
                     .ToList();
                 await dbContext.CommitAsync();
@@ -47,7 +47,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             });
         }
 
-        public async Task SaveAnswer(string userId, Question question, string answer)
+        public async Task SaveAnswer(string userId, Question question, string answer, bool isSkipped)
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
@@ -58,7 +58,8 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                     Answer = answer,
                     IsCorrect = question.IsCorrectAnswer(answer),
                     QuestionIndex = question.Index,
-                    PointsNumber = question.PointsNumber
+                    PointsNumber = question.PointsNumber,
+                    IsScipped = isSkipped
                 });
                 await dbContext.CommitAsync();
             });

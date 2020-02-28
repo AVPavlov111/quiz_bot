@@ -5,6 +5,7 @@ namespace TrueQuizBot
         public long Id { get; set; }
         public int QuestionIndex { get; set; }
         public bool IsCorrect { get; set; }
+        public bool IsScipped { get; set; }
         public string? Answer { get; set; }
         public int PointsNumber { get; set; }
         

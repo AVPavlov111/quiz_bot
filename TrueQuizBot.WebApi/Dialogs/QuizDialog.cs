@@ -111,13 +111,14 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             if (string.Equals(answer, SkipCommand, StringComparison.OrdinalIgnoreCase) == false)
             {
-                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
+                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer, false);
 
                 answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 await ShowAnswerImage(stepContext, cancellationToken, question.IsCorrectAnswer(answer));
             }
             else
             {
+                await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer, true);
                 await _dataProvider.SaveQurrentQuestionIndex(GetUserId(stepContext), question.Index + 1);
             }
 

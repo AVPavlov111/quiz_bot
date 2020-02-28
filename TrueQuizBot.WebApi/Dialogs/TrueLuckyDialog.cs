@@ -16,6 +16,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string PhoneNumberText = "Телефон";
         private const string CompanyNameText = "В какой компании работаешь?";
         private const string PositionText = "На какой должности?";
+        private const string EmailAddressText = "Напиши свою почту (потом пришлю правильные ответы)";
         private const string InterestsText = "Какой стек технологий тебе интересен?";
         private const string IsAcceptedText = "Согласны на обработку персональных данных? \n https://trueengineering.ru/.resources/etr-site-modules/dist/assets/docs/te_personal_data_privacy_policy.pdf";
 
@@ -31,6 +32,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             {
                 ShowGreetingMessage,
                 PhoneNumberStep,
+                EmailAddressStep,
                 CompanyNameStep,
                 PositionStep,
                 InterestsStep,
@@ -84,12 +86,27 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             return await stepContext.NextAsync(personalData.PhoneNumber, cancellationToken);
         }
+        
+        private async Task<DialogTurnResult> EmailAddressStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var personalData = (TrueLuckyPersonalData) stepContext.Options;
+
+            personalData.PhoneNumber = (string) stepContext.Result;
+
+            if (personalData.EmailAddress == null)
+            {
+                var promptMessage = MessageFactory.Text(EmailAddressText, EmailAddressText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.PhoneNumber, cancellationToken);
+        }
 
         private async Task<DialogTurnResult> CompanyNameStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var personalData = (TrueLuckyPersonalData) stepContext.Options;
 
-            personalData.PhoneNumber = (string) stepContext.Result;
+            personalData.EmailAddress = (string) stepContext.Result;
 
             if (personalData.CompanyName == null)
             {
@@ -166,9 +183,6 @@ namespace TrueQuizBot.WebApi.Dialogs
 Спасибо. Лотерейный билет создан. 
 
 Но, как говорится, на удачу надейся, а сам не плошай. 
-
-Увеличим твои шансы на выигрыш?
-
 ";
                 activity = Activity.CreateMessageActivity();
                 activity.Text = initialText;
