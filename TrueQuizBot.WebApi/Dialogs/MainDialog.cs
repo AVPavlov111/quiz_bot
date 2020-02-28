@@ -31,7 +31,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         
         private async Task<DialogTurnResult> AcceptanceStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var initialText = "Привет! Я True_Bot, знаю задачки на логику, могу проверить уровень твоего везения, а еще – рассказать про True_инженерные_эмоции на SnowOne. В каждом варианте мы припасли для тебя приятные сувениры и полезные подарки. Во что больше веришь, в инженерное мышление, удачу, или активность? Чем займемся?";
+            var initialText = "Привет! Я True_Bot, знаю задачки на логику, могу проверить уровень твоего везения, а еще – рассказать про True_инженерные_эмоции на SnowOne. В каждом варианте мы припасли для тебя приятные сувениры и полезные подарки. Во что больше веришь: в инженерное мышление, удачу или активность? Чем займемся?";
             var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
             var promptOptions = new PromptOptions
             {
