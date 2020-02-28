@@ -16,5 +16,6 @@ namespace TrueQuizBot
         Task<int?> GetCurrentQuestionIndex(string userId);
         Task SaveQurrentQuestionIndex(string userId, int questionIndex);
         Task<int> GetCurrentPosition(string userId);
+        Task<List<Winner>> GetEmails();
     }
 }

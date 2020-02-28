@@ -6,5 +6,6 @@ namespace TrueQuizBot
         public string? LastName { get; set; }
         public string? PhoneNumber { get; set; }
         public int TotalSum { get; set; }
+        public string? EmailAddress { get; set; }
     }
 }

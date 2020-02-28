@@ -158,5 +158,18 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 return winners.IndexOf(winners.Single(winner => string.Equals(winner.UserId, userId, StringComparison.InvariantCultureIgnoreCase))) + 1;
             });
         }
+
+        public async Task<List<Winner>> GetEmails()
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var users = await dbContext.GetUsers();
+                return users.Where(user => user.PersonalData?.IsAcceptedPersonalDataProcessing ?? false).Select(user => new Winner
+                {
+                    FirstName = user.PersonalData?.FirstName,
+                    EmailAddress = user.PersonalData?.Email
+                }).ToList();
+            });
+        }
     }
 }
