@@ -59,7 +59,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             
             var activity = Activity.CreateMessageActivity();
           
-            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.";
+            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}).";
             activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
             
