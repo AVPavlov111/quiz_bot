@@ -87,7 +87,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
                 var users = await dbContext.GetUsers();
-                var winners = users
+                var winners = users.Where(user => user.PersonalData.IsAcceptedPersonalDataProcessing)
                     .OrderByDescending(user =>
                         user.AnswerStatistics.Where(stat => stat.IsCorrect)
                             .Sum(stat => stat.PointsNumber)).Take(count).ToList();
@@ -105,7 +105,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
-                var users = (await dbContext.GetUsers()).ToArray();
+                var users = ((await dbContext.GetUsers()).Where(user => user.PersonalData.IsAcceptedPersonalDataProcessing)).ToArray();
                 var count = users.Length;
                 var rand = new Random();
                 var randomIndexes = new List<int>();
@@ -117,7 +117,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
 
                 var winners = randomIndexes.Select(randomIndex => users[randomIndex]).ToList();
 
-                return winners.Select(winner => new Winner()
+                return winners.Select(winner => new Winner
                 {
                     FirstName = winner.PersonalData.FirstName,
                     LastName = winner.PersonalData.LastName,
