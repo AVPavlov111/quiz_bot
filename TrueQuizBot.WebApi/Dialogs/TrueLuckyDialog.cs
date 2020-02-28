@@ -47,14 +47,19 @@ namespace TrueQuizBot.WebApi.Dialogs
 :stuck_out_tongue_winking_eye: Кстати, сегодня в 11:15 наши инженеры в зале «Демо-стейдж» рассказывают, как настроили онлайн аналитику логов с применением Kafka streams фреймворка. Приходи послушать!  После МК сможешь потестить инструмент на нашем стенде в любое время.
 ";
             
+            var personalData = (TrueLuckyPersonalData)stepContext.Options;
+
             var activity = Activity.CreateMessageActivity();
             activity.Text = initialText;
-            
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
-            
-            var promptMessage = MessageFactory.Text(DisplayNameText);
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage}, cancellationToken);
+            if (personalData.DisplayName == null)
+            {
+                var promptMessage = MessageFactory.Text(DisplayNameText, DisplayNameText, InputHints.ExpectingInput);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
+            }
+
+            return await stepContext.NextAsync(personalData.DisplayName, cancellationToken);
         }
 
         private async Task<DialogTurnResult> PhoneNumberStep(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -150,7 +155,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                     Choices = new List<Choice>()
                     {
                         new Choice(Constants.TrueTasksTitle),
-                        new Choice(Constants.TrueLuckyTitle)
+                        new Choice(Constants.TrueEmotionsTitle)
                     }
                 };
 
@@ -168,8 +173,8 @@ namespace TrueQuizBot.WebApi.Dialogs
 
                 switch (text)
                 {
-                    case Constants.TrueLuckyTitle:
-                        return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
+                    case Constants.TrueEmotionsTitle:
+                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog), null, cancellationToken);
                     case Constants.TrueTasksTitle:
                         return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
                 }

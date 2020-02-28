@@ -51,11 +51,11 @@ namespace TrueQuizBot.WebApi.Dialogs
                         await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
                     case Constants.TrueLuckyTitle:
-                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog));
+                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog), new TrueLuckyPersonalData(), cancellationToken);
                     case Constants.TrueTasksTitle:
-                        return await innerDc.BeginDialogAsync(nameof(QuizDialog));
+                        return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
                     case Constants.TrueEmotionsTitle:
-                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog));
+                        return await innerDc.BeginDialogAsync(nameof(TrueEmotionsDialog), null, cancellationToken);
                 }
             }
 

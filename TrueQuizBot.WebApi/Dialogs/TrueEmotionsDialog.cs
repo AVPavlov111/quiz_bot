@@ -26,26 +26,43 @@ namespace TrueQuizBot.WebApi.Dialogs
 
         private async Task<DialogTurnResult> ShowTrueEmotionsCard(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var initialText = @"
+
+            var text = @"
 Приходи на стенд True Engineering за настоящими эмоциями. Попробуй все, поучаствуй везде, собери на каждой станции по стикеру в буклет и получи призы!
+
 За прохождение всех станций — True_футболка.
-10 самым быстрым — True_толстовка.
 
-**True_МК (зал «Демо-стейдж»  в 11:15):** расскажем, как с применением Kafka streams и KSQL создать онлайн аналитику логов приложения.
+10 самым быстрым — True_толстовка.";
+            var activity = Activity.CreateMessageActivity();
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "**True\\_МК (зал «Демо-стейдж»  в 11:15):** расскажем, как с применением Kafka streams и KSQL создать онлайн аналитику логов приложения.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "**True\\_кофе:** ароматный, настоящий, приходи взбодриться.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
 
-**True_кофе:** ароматный, настоящий, приходи взбодриться.
-
-**True_bot_квиз:** задачки для настоящих инженеров с подарками участникам и победителям.
-
-**True_конструктор:** научим собирать из гигантских кубиков **Куборо** настоящий механизм
-
-**True_викторина:** проверь свой кругозор на больших кнопках
-
-**True_разговоры про технологии** на нашем стенде
-
-Увеличим еще твои шансы на призы?
-                                ";
-            var promptMessage = MessageFactory.Text(initialText, null, InputHints.ExpectingInput);
+            text = "**True\\_bot\\_квиз:** задачки для настоящих инженеров с подарками участникам и победителям.";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "**True\\_конструктор:** научим собирать из гигантских кубиков **Куборо** настоящий механизм";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "**True\\_викторина:** проверь свой кругозор на больших кнопках";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "**True\\_разговоры про технологии** на нашем стенде";
+            activity.Text = text;
+            await stepContext.Context.SendActivityAsync(activity, cancellationToken);
+            
+            text = "Увеличим еще твои шансы на призы?";
+            var promptMessage = MessageFactory.Text(text, null, InputHints.ExpectingInput);
             var promptOptions = new PromptOptions
             {
                 Prompt = promptMessage,
@@ -69,7 +86,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 switch (text)
                 {
                     case Constants.TrueLuckyTitle:
-                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog), null, cancellationToken);
+                        return await innerDc.BeginDialogAsync(nameof(TrueLuckyDialog), new TrueLuckyPersonalData(), cancellationToken);
                     case Constants.TrueTasksTitle:
                         return await innerDc.BeginDialogAsync(nameof(QuizDialog), null, cancellationToken);
                 }
