@@ -19,7 +19,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework.Configurations
 
             builder.HasOne(x => x.TrueLuckyPersonalData)
                 .WithOne(a => a!.User)
-                .HasForeignKey<PersonalData>(a => a.UserId)
+                .HasForeignKey<TrueLuckyPersonalData>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

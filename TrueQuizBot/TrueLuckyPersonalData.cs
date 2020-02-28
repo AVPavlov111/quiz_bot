@@ -8,6 +8,7 @@ namespace TrueQuizBot
         public string? CompanyName { get; set; }
         public string? Position { get; set; }
         public string? Interests { get; set; }
+        public string? EmailAddress { get; set; }
         
         public bool IsAcceptedPersonalDataProcessing { get; set; }
 
@@ -21,6 +22,7 @@ namespace TrueQuizBot
             CompanyName = luckyPersonalData.CompanyName;
             Position = luckyPersonalData.Position;
             Interests = luckyPersonalData.Interests;
+            EmailAddress = luckyPersonalData.EmailAddress;
             IsAcceptedPersonalDataProcessing = luckyPersonalData.IsAcceptedPersonalDataProcessing;
         }
     }

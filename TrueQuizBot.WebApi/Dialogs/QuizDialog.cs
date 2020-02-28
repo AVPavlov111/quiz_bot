@@ -78,7 +78,7 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             if (question == null)
             {
-                return await stepContext.BeginDialogAsync(nameof(TrueLuckyDialog), new PersonalData(), cancellationToken);
+                return await stepContext.BeginDialogAsync(nameof(TrueLuckyDialog), new TrueLuckyPersonalData(), cancellationToken);
             }
 
             await _dataProvider.SaveQurrentQuestionIndex(GetUserId(stepContext), question.Index);
