@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,6 @@ namespace TrueQuizBot.WebApi.Dialogs
         private readonly IDataProvider _dataProvider;
         private const string TrueImg = "https://truebotwebapp.azurewebsites.net/true.png";
         private const string FalseImg = "https://truebotwebapp.azurewebsites.net/false.png";
-        private const string ChoiceText = "Выберите один из вариантов ответа";
         private const string TextAnswer = "";
         private const string SkipCommand = "/skip_question";
         private const string IntroMessageId = "IntroMessageId";
@@ -85,11 +85,6 @@ namespace TrueQuizBot.WebApi.Dialogs
 
             await ShowQuestionText(stepContext, cancellationToken, question);
 
-            if (question.QuestionType == QuestionType.Choice)
-            {
-                return await ShowChoices(stepContext, cancellationToken, question);
-            }
-
             return await ShowQuestionWithTextAnswer(stepContext, cancellationToken);
         }
 
@@ -106,9 +101,11 @@ namespace TrueQuizBot.WebApi.Dialogs
             }
             
             var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
+            Debug.Assert(question != null);
 
             if (string.Equals(answer, SkipCommand, StringComparison.OrdinalIgnoreCase) == false)
             {
+                
                 await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
 
                 answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
@@ -129,7 +126,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }
         
-        private static async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken, Question? question)
+        private static async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken, Question question)
         {
             var activity = Activity.CreateMessageActivity();
             activity.Text = $"{question.Text} \nБаллов: {question.PointsNumber}";
@@ -141,17 +138,6 @@ namespace TrueQuizBot.WebApi.Dialogs
         private static string GetUserId(DialogContext stepContext)
         {
             return stepContext.Context.Activity.From.Id;
-        }
-
-        private static async Task<DialogTurnResult> ShowChoices(DialogContext stepContext, CancellationToken cancellationToken, Question? question)
-        {
-            var promptMessage = MessageFactory.Text(ChoiceText, ChoiceText, InputHints.AcceptingInput);
-            var promptOptions = new PromptOptions
-            {
-                Prompt = promptMessage,
-                Choices = question.Answers.Select(a => new Choice { Value = a }).ToList()
-            };
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
         }
         
         private static async Task<DialogTurnResult> ShowQuestionWithTextAnswer(DialogContext stepContext, CancellationToken cancellationToken)

@@ -8,9 +8,9 @@ namespace TrueQuizBot
     {
         public Winner(User user)
         {
-            DisplayName = user.TrueLuckyPersonalData!.DisplayName;
-            PhoneNumber = user.TrueLuckyPersonalData!.PhoneNumber;
-            EmailAddress = user.TrueLuckyPersonalData!.EmailAddress;
+            DisplayName = user.TrueLuckyPersonalData!.DisplayName!;
+            PhoneNumber = user.TrueLuckyPersonalData!.PhoneNumber!;
+            EmailAddress = user.TrueLuckyPersonalData!.EmailAddress!;
             TotalSum = user.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber);
         }
 
