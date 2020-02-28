@@ -112,28 +112,6 @@
     },
     {
       "index": 10,
-      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка, цифры и математические символы.  \n  \nНапиши фразу на новом языке (без пробелов):  \n  \n<i>И чо?</i>",
-      "imageUrl": null,
-      "answers": null,
-      "correctAnswer": "&40?",
-      "describeAnswerImageUrl": null,
-      "describeAnswer": null,
-      "questionType": 2,
-      "pointsNumber": 2
-    },
-    {
-      "index": 11,
-      "text": "Задан простейший язык:  \n! – нет  \n. – точка  \n& - и  \n* - всё  \n# - точно  \n= - равно  \n  \nТакже разрешается применять все знаки препинания русского языка, цифры и математические символы.  \n  \nНапиши фразу на новом языке (без пробелов):  \n  \n<i>И ничо!</i>",
-      "imageUrl": null,
-      "answers": null,
-      "correctAnswer": "&!40!",
-      "describeAnswerImageUrl": null,
-      "describeAnswer": null,
-      "questionType": 2,
-      "pointsNumber": 1
-    },
-    {
-      "index": 12,
       "text": "int i = ???;  \ni = i++ + ++i;  \ni = i++ + ++i;  \nSystem.out.println(i);  \n<i>В консоль будет выведено 666. Чему равно i?</i>",
       "imageUrl": null,
       "answers": null,
@@ -144,7 +122,7 @@
       "pointsNumber": 2
     },
     {
-      "index": 13,
+      "index": 11,
       "text": "<pre><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<xs:schema attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n<xs:complexType name=\"Einstein\">\n<xs:sequence>\n<xs:element type=\"xs:string\" name=\"Newton\"/>\n<xs:element name=\"multiply\" type =\"Galilei\">\n</xs:element>\n</xs:sequence>\n</xs:complexType>\n<xs:element name=\"divide\" type=\"Einstein\" >\n</xs:element>\n<xs:complexType name =\"Galilei\"> \n<xs:sequence>\n<xs:element type=\"xs:string\" name=\"meter\" maxOccurs=\"2\" minOccurs=\"2\"/>\n</xs:sequence>\n</xs:complexType> \n</xs:schema>\n</pre><i>Здесь зашифровано имя великого ученого: какого (напиши по-русски только фамилию)?</i>",
       "imageUrl": null,
       "answers": null,
@@ -155,7 +133,7 @@
       "pointsNumber": 3
     },
     {
-      "index": 14,
+      "index": 12,
       "text": "-4193596800  \n<i>Кто умер (напиши по-русски только фамилию)?</i>",
       "imageUrl": null,
       "answers": null,
@@ -166,8 +144,8 @@
       "pointsNumber": 2
     },
     {
-      "index": 15,
-      "text": "Рэймен и Даймен сказали, что *U2FsdGVkX1/lZ593RWtapa6k1V7BNrazjGjuoHXB6l7mfmy9LvpZW4VNMGkj39X9 g*  \nпридет к тебе сегодня.  \n<i>Кто придет? Ответ тебе поможет открыть True Engineering.</i>",
+      "index": 13,
+      "text": "Рэймен и Даймен сказали: \n <pre>DGgrpYWb13LbdNq7ZAaJLlzuFe4xyrKc5zV7xaQJHhw=</pre> \n<i>Что они сказали? Ответ тебе поможет открыть True Engineering.</i>",
       "imageUrl": null,
       "answers": null,
       "correctAnswer": "Write once, run anywhere",
@@ -177,7 +155,7 @@
       "pointsNumber": 4
     },
     {
-      "index": 16,
+      "index": 14,
       "text": "И \"жесткий\" вопрос от главного архитектора. Главный архитектор человек серьезный, никогда не улыбается, говорит только о технологиях.  \nНастоящие инженеры (хохо:-)  \nпьют только (тактак:-)  \nром, [смайлик:-]  \nколу, [лол:-]  \nводку, [опятьсмайлик:-]  \nджин (сновалол:-)  \nи кофе. [неплохо:-]  \n<i>А какой напиток на самом деле любят настоящие инженеры?</i>",
       "imageUrl": null,
       "answers": null,
