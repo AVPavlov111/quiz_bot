@@ -128,7 +128,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private static async Task ShowQuestionText(DialogContext stepContext, CancellationToken cancellationToken, Question? question)
         {
             var activity = Activity.CreateMessageActivity();
-            activity.Text = question.Text;
+            activity.Text = $"{question.Text} \nБаллов: {question.PointsNumber}";
             activity.TextFormat = "xml";
 
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
