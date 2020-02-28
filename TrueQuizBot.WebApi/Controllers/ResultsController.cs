@@ -26,5 +26,11 @@ namespace TrueQuizBot.WebApi.Controllers
         {
             return await _dataProvider.GetLuckers();
         }
+        
+        [HttpGet, Route("emails")]
+        public async Task<List<Winner>> GetEmails()
+        {
+            return await _dataProvider.GetEmails();
+        }
     }
 }

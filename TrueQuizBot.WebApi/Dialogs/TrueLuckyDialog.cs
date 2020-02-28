@@ -16,7 +16,7 @@ namespace TrueQuizBot.WebApi.Dialogs
         private const string CompanyNameText = "В какой компании работаешь?";
         private const string PositionText = "На какой должности?";
         private const string InterestsText = "Какой стек технологий тебе интересен?";
-        private const string IsAcceptedText = "Согласны на обработку персональных данных? https://truebotwebapp.azurewebsites.net/personalDataAcceptance.htm";
+        private const string IsAcceptedText = "Согласны на обработку персональных данных? \n https://trueengineering.ru/.resources/etr-site-modules/dist/assets/docs/te_personal_data_privacy_policy.pdf";
 
         public TrueLuckyDialog(IDataProvider dataProvider) : base(nameof(TrueLuckyDialog))
         {

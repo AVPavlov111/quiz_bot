@@ -57,7 +57,7 @@ namespace TrueQuizBot.WebApi.Dialogs
             
             var activity = Activity.CreateMessageActivity();
           
-            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}), потом ты сможешь к нему вернуться или оставить без ответа.";
+            var text = $":nerd_face: Если не знаешь ответ – пропускай вопрос ({SkipCommand}).";
             activity.Text = text;
             await stepContext.Context.SendActivityAsync(activity, cancellationToken);
             
@@ -110,6 +110,7 @@ namespace TrueQuizBot.WebApi.Dialogs
                 var question = await _questionsProvider.GetCurrentQuestion(GetUserId(stepContext));
                 await _dataProvider.SaveAnswer(stepContext.Context.Activity.From.Id, question, answer);
 
+                answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 await ShowAnswerImage(stepContext, cancellationToken, question.IsCorrectAnswer(answer));
             }
 

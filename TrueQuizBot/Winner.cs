@@ -16,5 +16,6 @@ namespace TrueQuizBot
         public string DisplayName { get; }
         public string PhoneNumber { get;  }
         public int TotalSum { get; }
+        public string? EmailAddress { get; set; }
     }
 }

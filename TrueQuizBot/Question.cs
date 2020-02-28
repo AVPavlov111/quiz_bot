@@ -17,6 +17,7 @@ namespace TrueQuizBot
         public string? DescribeAnswer { get; set; }
         public QuestionType QuestionType { get; set; }
         public int PointsNumber { get; set; }
+        public bool QuestionAboutLanguage { get; set; }
 
         public bool IsCorrectAnswer(string answer)
         {

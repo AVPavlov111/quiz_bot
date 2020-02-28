@@ -29,6 +29,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             await _contextFactory.RunInTransaction(async dbContext =>
             {
+                answer = question.QuestionAboutLanguage ? answer.Replace(" ", "") : answer;
                 var user =  await dbContext.GetOrCreateUser(userId);
                 user.SaveAnswer(new AnswerStatistic
                 {
@@ -66,11 +67,17 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
                 var users = await dbContext.GetUsers();
-                return users
-                    .OrderByDescending(user =>  user.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber))
-                    .Take(count)
-                    .Select(user => new Winner(user))
-                    .ToList();
+                var winners = users.Where(user => user.PersonalData.IsAcceptedPersonalDataProcessing)
+                    .OrderByDescending(user =>
+                        user.AnswerStatistics.Where(stat => stat.IsCorrect)
+                            .Sum(stat => stat.PointsNumber)).Take(count).ToList();
+                return winners.Select(winner => new Winner
+                {
+                    FirstName = winner.PersonalData.FirstName,
+                    LastName = winner.PersonalData.LastName,
+                    PhoneNumber = winner.PersonalData.PhoneNumber,
+                    TotalSum = winner.AnswerStatistics.Where(stat => stat.IsCorrect).Sum(stat => stat.PointsNumber)
+                }).ToList();
             });
         }
 
@@ -78,7 +85,7 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
         {
             return await _contextFactory.RunInTransaction(async dbContext =>
             {
-                var users = (await dbContext.GetUsers()).ToArray();
+                var users = ((await dbContext.GetUsers()).Where(user => user.PersonalData.IsAcceptedPersonalDataProcessing)).ToArray();
                 var count = users.Length;
                 var rand = new Random();
                 var randomIndexes = new List<int>();
@@ -124,6 +131,19 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                         user.AnswerStatistics.Where(stat => stat.IsCorrect)
                             .Sum(stat => stat.PointsNumber)).ToList();
                 return winners.IndexOf(winners.Single(winner => string.Equals(winner.UserId, userId, StringComparison.InvariantCultureIgnoreCase))) + 1;
+            });
+        }
+
+        public async Task<List<Winner>> GetEmails()
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var users = await dbContext.GetUsers();
+                return users.Where(user => user.PersonalData?.IsAcceptedPersonalDataProcessing ?? false).Select(user => new Winner
+                {
+                    FirstName = user.PersonalData?.FirstName,
+                    EmailAddress = user.PersonalData?.Email
+                }).ToList();
             });
         }
     }
