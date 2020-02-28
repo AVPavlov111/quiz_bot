@@ -144,5 +144,18 @@ namespace TrueQuizBot.Infrastructure.EntityFramework
                 await dbContext.CommitAsync();
             });
         }
+
+        public async Task<int> GetCurrentPosition(string userId)
+        {
+            return await _contextFactory.RunInTransaction(async dbContext =>
+            {
+                var users = await dbContext.GetUsers();
+                var winners = users
+                    .OrderByDescending(user =>
+                        user.AnswerStatistics.Where(stat => stat.IsCorrect)
+                            .Sum(stat => stat.PointsNumber)).ToList();
+                return winners.IndexOf(winners.Single(winner => string.Equals(winner.UserId, userId, StringComparison.InvariantCultureIgnoreCase)));
+            });
+        }
     }
 }
